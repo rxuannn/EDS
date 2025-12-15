@@ -7517,7 +7517,7 @@ a.anchor-link {
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h1 id="%E4%B8%8D%E5%90%8C%E6%A9%9F%E5%99%A8%E5%AD%B8%E7%BF%92%E6%96%B9%E6%B3%95%E5%9C%A8%E4%B8%AD%E5%A3%A2%E5%8D%80%E7%A9%BA%E6%B0%A3%E5%93%81%E8%B3%AA%EF%BC%88PM2.5%EF%BC%89%E9%A0%90%E6%B8%AC%E4%B8%AD%E7%9A%84%E6%87%89%E7%94%A8%E8%88%87%E6%AF%94%E8%BC%83">不同機器學習方法在中壢區空氣品質（PM2.5）預測中的應用與比較<a class="anchor-link" href="#%E4%B8%8D%E5%90%8C%E6%A9%9F%E5%99%A8%E5%AD%B8%E7%BF%92%E6%96%B9%E6%B3%95%E5%9C%A8%E4%B8%AD%E5%A3%A2%E5%8D%80%E7%A9%BA%E6%B0%A3%E5%93%81%E8%B3%AA%EF%BC%88PM2.5%EF%BC%89%E9%A0%90%E6%B8%AC%E4%B8%AD%E7%9A%84%E6%87%89%E7%94%A8%E8%88%87%E6%AF%94%E8%BC%83">¶</a></h1><p><strong>戴榆蓁, 劉芳如, 吳柔萱</strong></p>
-<h2 id="%E6%91%98%E8%A6%81">摘要<a class="anchor-link" href="#%E6%91%98%E8%A6%81">¶</a></h2><p>本研究使用中壢測站 2021–2024 年之 PM2.5 與氣象資料，透過風向週期化轉換、時間特徵與滯後特徵建立多元預測模型，以探討氣象條件對 PM2.5 濃度的影響。結果顯示風速、濕度與季節性變化皆對污染累積具有貢獻，而滯後特徵能有效捕捉污染的時間依賴性，提升模型預測能力。</p>
+<h2 id="%E6%91%98%E8%A6%81">摘要<a class="anchor-link" href="#%E6%91%98%E8%A6%81">¶</a></h2><p>本研究使用中壢測站 2021–2024 年之 PM2.5 與氣象資料，透過風向週期化轉換、時間特徵與滯後特徵建立多元預測模型，以探討氣象條件以及因 PM2.5 本質上具有強烈的自相關性所以也將 PM2.5 本身的的滯後因子納入考慮對後續 PM2.5 濃度的影響。結果顯示 PM2.5 本身的的滯後因子、季節性變化、風速、濕度等皆對污染累積具有貢獻，而滯後特徵能有效捕捉污染的時間依賴性，提升模型預測能力。</p>
 <h1 id="%E6%AD%A3%E6%96%87">正文<a class="anchor-link" href="#%E6%AD%A3%E6%96%87">¶</a></h1><h2 id="%E7%B7%92%E8%AB%96">緒論<a class="anchor-link" href="#%E7%B7%92%E8%AB%96">¶</a></h2><p>細懸浮微粒（PM2.5）是影響臺灣空氣品質與公共健康的重要污染物，其暴露被證實與呼吸道及心血管疾病風險上升密切相關（World Health Organization, 2021）。PM2.5 的短期變化受到多種氣象條件控制，包括風速、風向、濕度與溫度等，這些因子共同影響污染物的輸送、擴散與累積。此外，PM2.5 濃度本身具有強烈的時間自相關性，若未加入滯後資訊，模型可能會將污染累積誤判為氣象效應，因此在預測與因果分析中，加入 lag 特徵是必要的。</p>
 <p>在資料前處理方面，風向屬於週期性變數，若直接以角度表示會造成 0° 與 360° 被誤認為距離極大，因此需以 sine 與 cosine 進行週期嵌入以避免特徵扭曲。此外，PM2.5 與氣象條件皆呈現明顯的日夜周期與季節性特徵，因此本研究亦自時間欄位中建立 hour、weekday、month、season 等時間特徵，以更完整描述污染的時序行為。</p>
 <p>在模型選擇方面，空氣品質預測具有高度非線性結構，常需透過擅長處理複雜特徵關係的機器學習方法。隨機森林可有效捕捉多變量間的非線性關係，並提供特徵重要性分析，因此廣泛應用於環境資料預測。支撐向量回歸（SVR）則以核函數擴展能力處理複雜資料分布，並在中小型資料上保持良好預測表現。因此，本研究同時使用 RF 與 SVR，以比較其在 PM2.5 預測上之表現與解釋能力，並分析不同氣象與時間特徵對 PM2.5 濃度的影響。</p>
@@ -7533,7 +7533,8 @@ a.anchor-link {
 <li><p>資料合併與欄位清理</p>
 </li>
 </ol>
-<h3 id="%E8%B3%87%E6%96%99%E7%BC%BA%E5%A4%B1%EF%BC%88%E6%99%82%E9%96%93%E5%BA%8F%E5%88%97%EF%BC%89">資料缺失（時間序列）<a class="anchor-link" href="#%E8%B3%87%E6%96%99%E7%BC%BA%E5%A4%B1%EF%BC%88%E6%99%82%E9%96%93%E5%BA%8F%E5%88%97%EF%BC%89">¶</a></h3><table>
+<h3 id="%E8%B3%87%E6%96%99%E7%BC%BA%E5%A4%B1%EF%BC%88%E6%99%82%E9%96%93%E5%BA%8F%E5%88%97%EF%BC%89">資料缺失（時間序列）<a class="anchor-link" href="#%E8%B3%87%E6%96%99%E7%BC%BA%E5%A4%B1%EF%BC%88%E6%99%82%E9%96%93%E5%BA%8F%E5%88%97%EF%BC%89">¶</a></h3><p>表 1：各年份缺失時間序列</p>
+<table>
 <thead>
 <tr>
 <th>年份</th>
@@ -7564,6 +7565,7 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>表 2：各年份資料缺失比例</p>
 <table>
 <tr>
 <th></th>
@@ -7652,41 +7654,42 @@ a.anchor-link {
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h3 id="%E8%B3%87%E6%96%99%E5%88%86%E6%9E%90">資料分析<a class="anchor-link" href="#%E8%B3%87%E6%96%99%E5%88%86%E6%9E%90">¶</a></h3><p>本研究首先以描述性統計與可視化方式，分析 PM2.5 在不同季節下的分布特徵以及其他因子的資料分布情形。以下為資料探索所得之主要觀察結果。</p>
 <ul>
-<li>PM2.5連續分布圖：從連續分布圖中可看出冬季時PM2.5濃度較高。</li>
+<li>PM2.5連續分布圖</li>
 </ul>
 <img alt="No description has been provided for this image" src="./data/fig/PM25_timeseries.png" width="70%"/>
+<p>圖 1：從連續分布圖中可看出冬季時PM2.5濃度較高。</p>
 <ul>
 <li>眾數分布</li>
 </ul>
 <div style="display:flex; flex-wrap:wrap; gap:20px;">
 <div style="width:45%;">
 <img alt="No description has been provided for this image" src="./data/fig/PM25_distribution.png" style="width:100%;"/>
-<p style="font-size:14px; margin-top:5px;">
-      PM2.5 濃度呈右偏分布，眾數約為 10 μg/m³，多數時段空氣品質良好，僅少數高濃度事件出現於長尾。
+<p style="font-size:16px; margin-top:5px;">
+      圖 2：PM2.5 濃度呈右偏分布，眾數約為 10 μg/m³，多數時段空氣品質良好，僅少數高濃度事件出現於長尾。
     </p>
 </div>
 <div style="width:45%;">
 <img alt="No description has been provided for this image" src="./data/fig/TEMP_distribution.png" style="width:100%;"/>
-<p style="font-size:14px; margin-top:5px;">
-      氣溫分布呈現明顯的三峰結構，分別對應冬季低溫（約 12–15°C）、春秋過渡季的中溫（約 18–23°C），以及夏季高溫（約 27–30°C）。此三峰特性反映台灣北部明顯的季節性氣候差異，也使得氣溫可能成為解釋 PM2.5 季節變化的重要因子之一。
+<p style="font-size:16px; margin-top:5px;">
+      圖 3：氣溫分布呈現明顯的三峰結構，分別對應冬季低溫（約 12–15°C）、春秋過渡季的中溫（約 18–23°C），以及夏季高溫（約 27–30°C）。此三峰特性反映台灣北部明顯的季節性氣候差異，也使得氣溫可能成為解釋 PM2.5 季節變化的重要因子之一。
     </p>
 </div>
 <div style="width:45%;">
 <img alt="No description has been provided for this image" src="./data/fig/RH_distribution.png" style="width:100%;"/>
-<p style="font-size:14px; margin-top:5px;">
-      相對溼度高度集中在 70–95%，模式值接近 98%，顯示該地濕度普遍偏高，可能有助於污染物累積。
+<p style="font-size:16px; margin-top:5px;">
+      圖 4：相對溼度高度集中在 70–95%，模式值接近 98%，顯示該地濕度普遍偏高，可能有助於污染物累積。
     </p>
 </div>
 <div style="width:45%;">
 <img alt="No description has been provided for this image" src="./data/fig/wind_speed_distribution.png" style="width:100%;"/>
-<p style="font-size:14px; margin-top:5px;">
-      風速呈右偏分布，大量落在 0.2–2.0 m/s，表示常見弱風場條件，不利污染物擴散。
+<p style="font-size:16px; margin-top:5px;">
+      圖 5：風速呈右偏分布，大量落在 0.2–2.0 m/s，表示常見弱風場條件，不利污染物擴散。
     </p>
 </div>
 <div style="width:45%;">
 <img alt="No description has been provided for this image" src="./data/fig/rainfall_distribution.png" style="width:100%;"/>
-<p style="font-size:14px; margin-top:5px;">
-      降雨量以大量的零降雨為主，僅偶爾出現事件型大雨，反映降雨高度集中與不均。
+<p style="font-size:16px; margin-top:5px;">
+      圖 6：降雨量以大量的零降雨為主，僅偶爾出現事件型大雨，反映降雨高度集中與不均。
     </p>
 </div>
 </div>
@@ -7694,14 +7697,58 @@ a.anchor-link {
 <li>風向分析</li>
 </ul>
 <div style="display:flex; flex-wrap:wrap; gap:10px;">
-<img alt="No description has been provided for this image" src="./data/fig/wind_rose2021.png" width="24%"/>
-<img alt="No description has been provided for this image" src="./data/fig/wind_direction_unit_circle_2021.png" width="24%"/>
-<img alt="No description has been provided for this image" src="./data/fig/wind_rose2022.png" width="24%"/>
-<img alt="No description has been provided for this image" src="./data/fig/wind_direction_unit_circle_2022.png" width="24%"/>
-<img alt="No description has been provided for this image" src="./data/fig/wind_rose2023.png" width="24%"/>
-<img alt="No description has been provided for this image" src="./data/fig/wind_direction_unit_circle_2023.png" width="24%"/>
-<img alt="No description has been provided for this image" src="./data/fig/wind_rose2024.png" width="24%"/>
-<img alt="No description has been provided for this image" src="./data/fig/wind_direction_unit_circle_2024.png" width="24%"/>
+<!-- 2021 -->
+<div style="width:24%; text-align:center;">
+<img alt="No description has been provided for this image" src="./data/fig/wind_rose2021.png" width="100%"/>
+<div style="font-size:16px;">
+      圖 7 (a) 2021 風向玫瑰圖
+    </div>
+</div>
+<div style="width:24%; text-align:center;">
+<img alt="No description has been provided for this image" src="./data/fig/wind_direction_unit_circle_2021.png" width="100%"/>
+<div style="font-size:16px;">
+      圖 7 (b) 2021 風向 sin/cos 單位圓
+    </div>
+</div>
+<!-- 2022 -->
+<div style="width:24%; text-align:center;">
+<img alt="No description has been provided for this image" src="./data/fig/wind_rose2022.png" width="100%"/>
+<div style="font-size:16px;">
+      圖 7 (c) 2022 風向玫瑰圖
+    </div>
+</div>
+<div style="width:24%; text-align:center;">
+<img alt="No description has been provided for this image" src="./data/fig/wind_direction_unit_circle_2022.png" width="100%"/>
+<div style="font-size:16px;">
+      圖 7 (d) 2022 風向 sin/cos 單位圓
+    </div>
+</div>
+<!-- 2023 -->
+<div style="width:24%; text-align:center;">
+<img alt="No description has been provided for this image" src="./data/fig/wind_rose2023.png" width="100%"/>
+<div style="font-size:16px;">
+      圖 7 (e) 2023 風向玫瑰圖
+    </div>
+</div>
+<div style="width:24%; text-align:center;">
+<img alt="No description has been provided for this image" src="./data/fig/wind_direction_unit_circle_2023.png" width="100%"/>
+<div style="font-size:16px;">
+      圖 7 (f) 2023 風向 sin/cos 單位圓
+    </div>
+</div>
+<!-- 2024 -->
+<div style="width:24%; text-align:center;">
+<img alt="No description has been provided for this image" src="./data/fig/wind_rose2024.png" width="100%"/>
+<div style="font-size:16px;">
+      圖 7 (g) 2024 風向玫瑰圖
+    </div>
+</div>
+<div style="width:24%; text-align:center;">
+<img alt="No description has been provided for this image" src="./data/fig/wind_direction_unit_circle_2024.png" width="100%"/>
+<div style="font-size:16px;">
+      圖 7 (h) 2024 風向 sin/cos 單位圓
+    </div>
+</div>
 </div>
 </div>
 </div>
@@ -7744,6 +7791,16 @@ a.anchor-link {
 </div>
 </div>
 </div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=65f6dbb1">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+</div>
+</div>
+</div>
+</div>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=b3e2a651">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -7777,128 +7834,649 @@ a.anchor-link {
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=1da4087b-4d0a-43c5-ba81-bee98cea0382">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=103dfdc1">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>歡迎自由把你的作品分節。</p>
-<h4 id="%E7%B7%92%E8%AB%96%E5%B0%8F%E7%AF%80%E5%85%A7%E5%B0%8F%E7%AF%80">緒論小節內小節<a class="anchor-link" href="#%E7%B7%92%E8%AB%96%E5%B0%8F%E7%AF%80%E5%85%A7%E5%B0%8F%E7%AF%80">¶</a></h4><p>或是分節再分節。</p>
-<h3 id="%E7%B7%92%E8%AB%96%E5%85%A7%E5%B0%8F%E7%AF%802">緒論內小節2<a class="anchor-link" href="#%E7%B7%92%E8%AB%96%E5%85%A7%E5%B0%8F%E7%AF%802">¶</a></h3><p>行間插入 Latex 數學的範例：$\hat{\textbf{a}}=(\textbf{X}^\text{T}\textbf{X}+\lambda \textbf{I})^{-1}\textbf{X}^\text{T}\textbf{y}$</p>
-<p>Latex 數學區塊：</p>
-<p>$$
-\arg\min\limits_{\textbf{a}}  ||\textbf{y} − \textbf{Xa}||_2^2 + \lambda||\textbf{a}||_2^2
-$$</p>
-<p>插入圖片：</p>
-<p><img alt="csrsr" src="csrsr_logo.png"/></p>
-<p><strong>圖 1:</strong> 記得包含圖說。</p>
-<h2 id="%E7%B5%90%E6%9E%9C">結果<a class="anchor-link" href="#%E7%B5%90%E6%9E%9C">¶</a></h2><p>結果呈現。 <strong>本節不允許出現程式碼。可使用圖片或表格呈現結果。</strong></p>
-<p>製作表格：</p>
-<p><strong>表 1:</strong> 記得包含表說。</p>
+<h1 id="%E6%A8%A1%E5%9E%8B%E4%B8%80-%E6%A5%B5%E9%99%90%E9%9A%A8%E6%A9%9F%E6%A8%B9%EF%BC%88Extremely-Randomized-Trees,-ET%EF%BC%89">模型一 極限隨機樹（Extremely Randomized Trees, ET）<a class="anchor-link" href="#%E6%A8%A1%E5%9E%8B%E4%B8%80-%E6%A5%B5%E9%99%90%E9%9A%A8%E6%A9%9F%E6%A8%B9%EF%BC%88Extremely-Randomized-Trees,-ET%EF%BC%89">¶</a></h1><h3 id="%E4%BB%8B%E7%B4%B9">介紹<a class="anchor-link" href="#%E4%BB%8B%E7%B4%B9">¶</a></h3><p>極限隨機樹是由 Pierre Geurts 等人在 2006 年提出的一種集成方法。它與隨機森林（Random Forest, RF）十分相似，但在決策樹的構建過程中引入了更強的隨機性，旨在進一步降低模型的方差（Variance）。
+極限隨機樹 的「極限」體現於兩個主要特徵：</p>
+<ul>
+<li>不使用隨機抽樣（Non-bootstrap）：不同於隨機森林使用 Bagging（拔靴法）抽取樣本子集，極限隨機樹通常使用「完整的訓練數據集」來訓練每棵決策樹，助於減少偏差（Bias）。這樣的特性也讓極限隨機樹產生連續的、分段多線性（piecewise multi-linear）的模型。</li>
+<li>隨機選取分裂點（Randomized Splitting）：在節點分裂時，不僅隨機選取特徵子集，也為每個特徵隨機產生一個分裂閾值，並從中選出最優者，而非像隨機森林那樣計算該特徵的所有可能分裂點。由於極限隨機樹具備這項特性，因此確保了基學習器（Base Learners）之間的高度去相關（Decorrelation）。當集成多棵多樣化的樹時，其平均後的最終模型，通常對於噪聲數據的魯棒性 (Robustness) 更強。因此極限隨機樹比起隨機森林具有更快的計算速度和集成多樣性。</li>
+</ul>
+<h3 id="%E7%82%BA%E4%BD%95%E9%81%A9%E7%94%A8%E6%96%BC%E9%A0%90%E6%B8%AC-PM2.5">為何適用於預測 PM2.5<a class="anchor-link" href="#%E7%82%BA%E4%BD%95%E9%81%A9%E7%94%A8%E6%96%BC%E9%A0%90%E6%B8%AC-PM2.5">¶</a></h3><p>由於 PM2.5 濃度易受到多種因素影響，如溫度、濕度、風向、風速、季節......等，因此 PM2.5 與這些變數之間會呈現複雜的非線性關係。而樹模型相當適合捕捉這種複雜的非線性，因為它不假設線性，也不假設單一特徵的影響，而是直接根據資料集自動找出這些變數與 PM2.5 之間的規則。​
+因此極限隨機樹可以透過其隨機且集成的特性降低對測站誤差、測值異常等雜訊的敏感度，以避免對錯誤資料的過度擬合。​
+此外，PM2.5是逐小時記錄的資料，因此其資料量相當龐大。然而，極限隨機樹每個節點，都會隨機選擇分裂閾值，因此可以有效降低計算時間。</p>
+<h1 id="%E6%96%B9%E6%B3%95">方法<a class="anchor-link" href="#%E6%96%B9%E6%B3%95">¶</a></h1><h3 id="%E8%B3%87%E6%96%99%E6%A8%99%E6%BA%96%E5%8C%96%EF%BC%88Feature-Scaling%EF%BC%89">資料標準化（Feature Scaling）<a class="anchor-link" href="#%E8%B3%87%E6%96%99%E6%A8%99%E6%BA%96%E5%8C%96%EF%BC%88Feature-Scaling%EF%BC%89">¶</a></h3><p>由於各輸入變數具有不同量綱與數值範圍，若直接進行模型訓練，可能導致部分變數在分裂過程中佔據過大影響。因此，本研究對所有輸入特徵進行標準化（Standardization）處理。
+對任一特徵 $x$，其標準化後的值定義為：</p>
+<p>$x' = \frac{x - \mu}{\sigma}$</p>
+<p>其中 $\mu$ 與 $\sigma$ 分別為該特徵在訓練資料集中的平均值與標準差。標準化參數僅由訓練集估計，並套用至驗證集與測試集，以避免資料洩漏（data leakage）問題。</p>
+<h3 id="%E6%A5%B5%E9%99%90%E9%9A%A8%E6%A9%9F%E6%A8%B9%E8%BF%B4%E6%AD%B8%E6%A8%A1%E5%9E%8B%EF%BC%88Extra-Trees%EF%BC%89">極限隨機樹迴歸模型（Extra-Trees）<a class="anchor-link" href="#%E6%A5%B5%E9%99%90%E9%9A%A8%E6%A9%9F%E6%A8%B9%E8%BF%B4%E6%AD%B8%E6%A8%A1%E5%9E%8B%EF%BC%88Extra-Trees%EF%BC%89">¶</a></h3><p>本研究採用極限隨機樹模型（Extremely Randomized Trees, ET）進行 PM ${2.5}$ 濃度預測。該模型屬於集成方法，透過整合多棵具高度隨機性的決策樹，以降低模型變異並提升預測穩定性。
+假設模型由 $M$ 棵樹組成，第 $m$ 棵樹的預測函數為 $f_m(\mathbf{x})$，則整體模型輸出定義為：</p>
+<p>$\hat{f}(\mathbf{x})=\frac{1}{M}\sum_{m=1}^{M}f_m(\mathbf{x})$</p>
+<p>極限隨機樹在每個節點分裂時，會在各特徵隨機產生分裂閾值，而非尋找最佳分裂點，藉此進一步降低樹與樹之間的相關性，減少過度擬合風險。</p>
+<h3 id="%E6%A8%A1%E5%9E%8B%E8%A8%93%E7%B7%B4%E8%88%87%E9%A0%90%E6%B8%AC%E6%B5%81%E7%A8%8B">模型訓練與預測流程<a class="anchor-link" href="#%E6%A8%A1%E5%9E%8B%E8%A8%93%E7%B7%B4%E8%88%87%E9%A0%90%E6%B8%AC%E6%B5%81%E7%A8%8B">¶</a></h3><p>模型使用標準化後的訓練資料進行訓練，完成後分別對訓練集、驗證集與測試集進行 PM ${2.5}$ 濃度預測。透過比較不同資料集上的模型表現，可評估模型是否具有良好的泛化能力，並檢視是否存在過度擬合情形。
+此外，亦比較資料集中是否含有滯後因子對模型預測能力的表現。</p>
+<h3 id="%E6%A8%A1%E5%9E%8B%E6%95%88%E8%83%BD%E8%A9%95%E4%BC%B0%E6%8C%87%E6%A8%99">模型效能評估指標<a class="anchor-link" href="#%E6%A8%A1%E5%9E%8B%E6%95%88%E8%83%BD%E8%A9%95%E4%BC%B0%E6%8C%87%E6%A8%99">¶</a></h3><p>本研究採用均方根誤差（Root Mean Squared Error, RMSE）與決定係數（$R^2$）作為模型效能評估指標。
+RMSE 定義為：</p>
+<p>$\mathrm{RMSE} = \sqrt{\frac{1}{N} \sum_{i=1}^{N} \left( y_i - \hat{y}_i \right)^2}$</p>
+<p>其中 $y_i$ 為實際觀測值，$\hat{y}_i$ 為模型預測值，$N$ 為樣本數。
+決定係數 $R^2$ 定義為：</p>
+<p>$R^2 = 1 - \frac{\sum_{i=1}^{N} \left( y_i - \hat{y}_i \right)^2}
+{\sum_{i=1}^{N} \left( y_i - \bar{y} \right)^2}$</p>
+<p>其中 $\bar{y}$ 為實際觀測值之平均值。RMSE 反映模型預測誤差大小，而 $R^2$ 則用以衡量模型對資料變異的解釋能力。</p>
+<h3 id="%E7%89%B9%E5%BE%B5%E9%87%8D%E8%A6%81%E6%80%A7%E5%88%86%E6%9E%90">特徵重要性分析<a class="anchor-link" href="#%E7%89%B9%E5%BE%B5%E9%87%8D%E8%A6%81%E6%80%A7%E5%88%86%E6%9E%90">¶</a></h3><p>為了解各輸入變數對 PM ${2.5}$ 濃度預測之相對影響，本研究利用極限隨機樹模型所提供的特徵重要性指標（feature importance）進行分析。該指標衡量各特徵在所有決策樹中，對模型誤差降低的平均貢獻程度。
+本研究依特徵重要性大小進行排序，並列出影響最大的變數，以作為後續變數篩選之依據。</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=f1efeca9">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <table>
 <thead>
 <tr>
-<th>測試代號</th>
-<th>模型</th>
-<th>RMSE</th>
+<th style="text-align:left">排名</th>
+<th style="text-align:left">特徵名稱 (Feature)</th>
+<th style="text-align:left">重要性得分 (Importance)</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Wish</td>
-<td>線性 (嶺迴歸)</td>
-<td>0.716</td>
+<td style="text-align:left">1</td>
+<td style="text-align:left"><strong>PM25_lag1</strong></td>
+<td style="text-align:left">0.547855</td>
 </tr>
 <tr>
-<td>Hibana</td>
-<td>隨機森林</td>
-<td>0.384</td>
+<td style="text-align:left">2</td>
+<td style="text-align:left"><strong>PM25_lag3</strong></td>
+<td style="text-align:left">0.168093</td>
+</tr>
+<tr>
+<td style="text-align:left">3</td>
+<td style="text-align:left"><strong>PM25_lag6</strong></td>
+<td style="text-align:left">0.078806</td>
+</tr>
+<tr>
+<td style="text-align:left">4</td>
+<td style="text-align:left">PM25_lag12</td>
+<td style="text-align:left">0.025236</td>
+</tr>
+<tr>
+<td style="text-align:left">5</td>
+<td style="text-align:left">month</td>
+<td style="text-align:left">0.012175</td>
+</tr>
+<tr>
+<td style="text-align:left">6</td>
+<td style="text-align:left">season</td>
+<td style="text-align:left">0.009739</td>
+</tr>
+<tr>
+<td style="text-align:left">7</td>
+<td style="text-align:left">PM25_lag24</td>
+<td style="text-align:left">0.008388</td>
+</tr>
+<tr>
+<td style="text-align:left">8</td>
+<td style="text-align:left">cos_hour</td>
+<td style="text-align:left">0.004757</td>
+</tr>
+<tr>
+<td style="text-align:left">9</td>
+<td style="text-align:left">wind_speed_lag1</td>
+<td style="text-align:left">0.004755</td>
+</tr>
+<tr>
+<td style="text-align:left">10</td>
+<td style="text-align:left">wind_speed</td>
+<td style="text-align:left">0.004688</td>
 </tr>
 </tbody>
 </table>
-<h3 id="%E7%B5%90%E6%9E%9C%E5%85%A7%E5%B0%8F%E7%AF%80-(%E5%B0%8F%E7%AF%80%E6%A8%99%E9%A1%8C%E9%83%BD%E5%8F%AF%E8%87%AA%E7%94%B1%E4%BF%AE%E6%94%B9)">結果內小節 (小節標題都可自由修改)<a class="anchor-link" href="#%E7%B5%90%E6%9E%9C%E5%85%A7%E5%B0%8F%E7%AF%80-(%E5%B0%8F%E7%AF%80%E6%A8%99%E9%A1%8C%E9%83%BD%E5%8F%AF%E8%87%AA%E7%94%B1%E4%BF%AE%E6%94%B9)">¶</a></h3><p>歡迎自由把你的作品分節。</p>
-<h2 id="%E8%A8%8E%E8%AB%96">討論<a class="anchor-link" href="#%E8%A8%8E%E8%AB%96">¶</a></h2><p>討論內容。 <strong>本節不允許出現程式碼。</strong></p>
-<h3 id="%E8%A8%8E%E8%AB%96%E5%85%A7%E5%B0%8F%E7%AF%80-(%E5%B0%8F%E7%AF%80%E6%A8%99%E9%A1%8C%E9%83%BD%E5%8F%AF%E8%87%AA%E7%94%B1%E4%BF%AE%E6%94%B9)">討論內小節 (小節標題都可自由修改)<a class="anchor-link" href="#%E8%A8%8E%E8%AB%96%E5%85%A7%E5%B0%8F%E7%AF%80-(%E5%B0%8F%E7%AF%80%E6%A8%99%E9%A1%8C%E9%83%BD%E5%8F%AF%E8%87%AA%E7%94%B1%E4%BF%AE%E6%94%B9)">¶</a></h3><p>歡迎自由把你的作品分節。</p>
-<h3 id="%E7%B5%90%E8%AB%96">結論<a class="anchor-link" href="#%E7%B5%90%E8%AB%96">¶</a></h3><p>使用一段文字為你的研究作結。</p>
-<h2 id="%E6%96%B9%E6%B3%95">方法<a class="anchor-link" href="#%E6%96%B9%E6%B3%95">¶</a></h2><p>描述本專題使用的資料與方法。<strong>本節允許並鼓勵使用程式碼。</strong></p>
-<!-- 如果需要的話，可以製作第二個 HTML 檔案來專門放這一節的內容。如果你要這麼做，請確認兩個 HTML 內有相互連絡的超連結。 -->
-<p>雖然非必須，但我會建議把原始數據或處理後的數據上傳到一個公開的地方，以讓讀者便於重現你的工作。</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=165f6de1-25ff-4081-a63a-82ec88e7b043">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># 範例程式碼格</span>
-
-<span class="c1"># 匯入模組</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">scipy.linalg</span> <span class="kn">import</span> <span class="n">lstsq</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-
-<span class="c1"># 產生/匯入資料</span>
-<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">500</span><span class="p">)</span>
-<span class="n">y</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">500</span><span class="p">)</span>
-
-<span class="c1"># 分析</span>
-<span class="n">X</span> <span class="o">=</span> <span class="n">x</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span><span class="o">**</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
-<span class="n">a</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">lstsq</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Model: y = </span><span class="si">{</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> + </span><span class="si">{</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">x'</span><span class="p">)</span>
-
-<span class="c1"># 結果繪圖</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="s1">'.'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'xkcd:teal'</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">polyval</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">flip</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="n">x</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s1">'xkcd:magenta'</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s1">'equal'</span><span class="p">,</span> <span class="s1">'box'</span><span class="p">);</span>   
-<span class="c1"># 我在最後一行的結尾加上了一個分號，可以在執行時抑制不需要的訊息顯示在結果中。</span>
-</pre></div>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Model: y = 0.06 + 0.56x
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedImage jp-OutputArea-output" tabindex="0">
-<img alt="No description has been provided for this image" class="" src="data:image/png;base64,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6/Xi8ccfxw033ICePXtGejiWQiJoAlOmTIHD4VD8qaqqCvibI0eOYPjw4Rg9ejTGjx8foZET8crDDz+MnTt34oMPPoj0UCzH1q20opXJkyfj/vvvV9ymc+fO/v8/evQoSkpKUFRUhL/85S8mjy76ufLKK5GQkIDjx48HfH78+HG0b98+QqOKXh555BF89tlnWL16dUy3ruNBImgCbdq0QZs2bTRte+TIEZSUlKBv37545513FJs/Ej6SkpLQt29fLFu2DGVlZQB807lly5bhkUceiezgoghBEPDoo49i0aJFWLlyJfLz8yM9pIhAIhhBjhw5guLiYnTs2BEzZszAyZMn/b8ji0aZJ598EmPHjkW/fv0wYMAAzJw5E3V1dXjggQciPbSo4eGHH8aCBQuwZMkSpKWl+f2pGRkZSElJifDorINSZCLIvHnzuA8tXRZ13njjDbz88sv44Ycf0Lt3b7z22msYOHBgpIcVNfCWrHjnnXdU3TmxBIkgQRBxDTmgCIKIa0gECYKIa0gECYKIa0gECYKIa0gECYKIa0gECYKIa0gECYKIa0gECYKIa0gECYKIa0gECYKIa0gECYKIa0gECYKIa/4/jALMDsZeYrwAAAAASUVORK5CYII="/>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=9fc43519-b5e3-4aa5-8548-1ea845eac9f9">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=5e9b412a">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="%E6%96%B9%E6%B3%95%E5%85%A7%E5%B0%8F%E7%AF%80-(%E5%B0%8F%E7%AF%80%E6%A8%99%E9%A1%8C%E9%83%BD%E5%8F%AF%E8%87%AA%E7%94%B1%E4%BF%AE%E6%94%B9)">方法內小節 (小節標題都可自由修改)<a class="anchor-link" href="#%E6%96%B9%E6%B3%95%E5%85%A7%E5%B0%8F%E7%AF%80-(%E5%B0%8F%E7%AF%80%E6%A8%99%E9%A1%8C%E9%83%BD%E5%8F%AF%E8%87%AA%E7%94%B1%E4%BF%AE%E6%94%B9)">¶</a></h3><p>歡迎自由把你的作品分節。</p>
-<h1 id="%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99">參考資料<a class="anchor-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99">¶</a></h1><!-- 以下列出建議的參考資料格式。如果可能的話，請隨時加上 DOI！ -->
-<ol>
-<li><p>Banks, G. C., et al. (2019). Answers to 18 Questions About Open Science Practices. <em>Journal of Business and Psychology</em>, <em>34</em>(3), 257–270. <a href="https://doi.org/10.1007/s10869-018-9547-8">https://doi.org/10.1007/s10869-018-9547-8</a> | <a href="https://www.researchgate.net/publication/325327886_Answers_to_18_Questions_About_Open_Science_Practices">Full text available on ResearchGate</a> (accessed on February 16, 2023)</p>
+<h2 id="%E8%AA%BF%E6%95%B4%E8%B6%85%E5%8F%83%E6%95%B8">調整超參數<a class="anchor-link" href="#%E8%AA%BF%E6%95%B4%E8%B6%85%E5%8F%83%E6%95%B8">¶</a></h2><p>上述的程式範例可以清楚的看到在訓練集上出現了過擬合的狀況，因此為了尋找最佳的極限隨機樹模型，我們針對以下超參數進行調整與搜尋：</p>
+<ul>
+<li>樹的數量 (n_estimators)：樹的數量越多，模型的穩定性通常越好，但訓練時間也越長。</li>
+<li>最大深度 (max_depth)：深度限制可避免樹過度擬合；None 表示完全展開。</li>
+<li>最小分裂樣本數 (min_samples_split)：控制節點最少需要的樣本數才能繼續分裂，用以調節模型複雜度。</li>
+<li>最小葉節點樣本數 (min_samples_leaf)：葉節點至少包含的樣本數，可防止樹過度擬合與過小葉節點對模型的影響。</li>
+</ul>
+<p>透過這些範圍組合，使用網格搜尋 (GridSearchCV) 和隨機搜尋 (RandomizedSearchCV) 方法進行交叉驗證，選擇在驗證集上表現最佳的參數組合，以提升模型泛化能力。</p>
+<p><strong>表 3:</strong> 超參數搜尋範圍</p>
+<table>
+<thead>
+<tr>
+<th>參數</th>
+<th>網格搜尋</th>
+<th>隨機搜尋</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>n_estimators</td>
+<td>200, 300, 500</td>
+<td>200, 300, 500, 800</td>
+</tr>
+<tr>
+<td>max_depth</td>
+<td>None, 10, 20, 30</td>
+<td>None, 10, 20, 30, 40</td>
+</tr>
+<tr>
+<td>min_samples_split</td>
+<td>2, 5, 10</td>
+<td>2, 5, 10, 20</td>
+</tr>
+<tr>
+<td>min_samples_leaf</td>
+<td>1, 2, 5</td>
+<td>1, 2, 5, 10</td>
+</tr>
+</tbody>
+</table>
+<p><strong>表 4:</strong> 最佳超參數組合</p>
+<table>
+<thead>
+<tr>
+<th>參數</th>
+<th>網格搜尋</th>
+<th>隨機搜尋</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>n_estimators</td>
+<td>500</td>
+<td>500</td>
+</tr>
+<tr>
+<td>max_depth</td>
+<td>20</td>
+<td>None</td>
+</tr>
+<tr>
+<td>min_samples_split</td>
+<td>2</td>
+<td>20</td>
+</tr>
+<tr>
+<td>min_samples_leaf</td>
+<td>5</td>
+<td>5</td>
+</tr>
+</tbody>
+</table>
+<p><strong>表 5:</strong> 網格搜尋最佳結果</p>
+<table>
+<thead>
+<tr>
+<th>資料集</th>
+<th>RMSE</th>
+<th>R²</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Train</td>
+<td>2.16</td>
+<td>0.949</td>
+</tr>
+<tr>
+<td>Validation</td>
+<td>4.09</td>
+<td>0.821</td>
+</tr>
+<tr>
+<td>Test</td>
+<td>3.91</td>
+<td>0.835</td>
+</tr>
+</tbody>
+</table>
+<p><strong>表 6:</strong> 隨機搜尋最佳結果</p>
+<table>
+<thead>
+<tr>
+<th>資料集</th>
+<th>RMSE</th>
+<th>R²</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Train</td>
+<td>2.7</td>
+<td>0.92</td>
+</tr>
+<tr>
+<td>Validation</td>
+<td>4.08</td>
+<td>0.821</td>
+</tr>
+<tr>
+<td>Test</td>
+<td>3.9</td>
+<td>0.836</td>
+</tr>
+</tbody>
+</table>
+<p>由於隨機搜尋的最佳超參數組合略優於網格搜尋，因此最後結果的展現將使用隨機搜尋的最佳參數組合，來比對預測結果與原始資料的差異。</p>
+<p><strong>圖 8-11:</strong> 網格搜尋結果視覺化。</p>
+<img alt="No description has been provided for this image" src="./data/fig/圖片1_戴榆蓁.png"/>
+<img alt="No description has been provided for this image" src="./data/fig/圖片2_戴榆蓁.png"/>
+<img alt="No description has been provided for this image" src="./data/fig/圖片3_戴榆蓁.png"/>
+<img alt="No description has been provided for this image" src="./data/fig/圖片4_戴榆蓁.png"/>
+<p><strong>圖 12-15:</strong> 隨機搜尋結果視覺化。</p>
+<img alt="No description has been provided for this image" src="./data/fig/圖片5_戴榆蓁.png"/>
+<img alt="No description has been provided for this image" src="./data/fig/圖片6_戴榆蓁.png"/>
+<img alt="No description has been provided for this image" src="./data/fig/圖片7_戴榆蓁.png"/>
+<img alt="No description has been provided for this image" src="./data/fig/圖片8_戴榆蓁.png"/>
+<h1 id="%E7%B5%90%E6%9E%9C">結果<a class="anchor-link" href="#%E7%B5%90%E6%9E%9C">¶</a></h1><p><strong>表 7:</strong> 資料集中有無滯後因子的模型結果（皆使用隨機搜尋最佳參數組合）</p>
+<p>表中可以清楚地看到，含有滯後因子的資料集表現優於不含滯後因子的資料集。因為 PM 2.5 有極強的時間連續性，濃度的變化並不會在極短的時間內發生巨大的改變，上一個時刻的濃度與下一時刻的濃度就會有很大的相關性。</p>
+<table>
+<thead>
+<tr>
+<th>資料集</th>
+<th>RMSE＿lag</th>
+<th>R²＿lag</th>
+<th>RMSE＿nolag</th>
+<th>R²＿nolag</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Train</td>
+<td>2.7</td>
+<td>0.92</td>
+<td>4.18</td>
+<td>0.809</td>
+</tr>
+<tr>
+<td>Validation</td>
+<td>4.08</td>
+<td>0.821</td>
+<td>9.09</td>
+<td>0.112</td>
+</tr>
+<tr>
+<td>Test</td>
+<td>3.9</td>
+<td>0.836</td>
+<td>8.57</td>
+<td>0.208</td>
+</tr>
+</tbody>
+</table>
+<p><strong>表 8:</strong> 調整前後之超參數設置</p>
+<p>透過比較原始參數設置和隨機搜尋後的最佳參數組合，可以發現過擬合的狀況應該與 min_samples_leaf 和 min_samples_split 有關，在原始參數設置中代表只要還剩下兩個資料點就可以再切分，且可以切到只剩下一個資料點，這導致過擬合的狀況發生。</p>
+<table>
+<thead>
+<tr>
+<th>參數</th>
+<th>原始參數設置</th>
+<th>隨機搜尋最佳參數</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>n_estimators</td>
+<td>300</td>
+<td>500</td>
+</tr>
+<tr>
+<td>max_depth</td>
+<td>None</td>
+<td>None</td>
+</tr>
+<tr>
+<td>min_samples_split</td>
+<td>2</td>
+<td>20</td>
+</tr>
+<tr>
+<td>min_samples_leaf</td>
+<td>1</td>
+<td>5</td>
+</tr>
+</tbody>
+</table>
+<p><strong>表 9:</strong> 超參數調整前後之模型表現</p>
+<table>
+<thead>
+<tr>
+<th>資料集</th>
+<th>RMSE＿原始參數設置</th>
+<th>R²＿原始參數設置</th>
+<th>RMSE＿隨機搜尋最佳參數</th>
+<th>R²＿隨機搜尋最佳參數</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Train</td>
+<td>0</td>
+<td>1</td>
+<td>2.7</td>
+<td>0.92</td>
+</tr>
+<tr>
+<td>Validation</td>
+<td>4.12</td>
+<td>0.818</td>
+<td>4.08</td>
+<td>0.821</td>
+</tr>
+<tr>
+<td>Test</td>
+<td>3.94</td>
+<td>0.832</td>
+<td>3.9</td>
+<td>0.836</td>
+</tr>
+</tbody>
+</table>
+<p>表 9可以清楚地看到，在初始超參數設置時，模型在訓練集的表現上出現了過擬合的狀況。經過隨機搜尋法來找出最佳超參數組合後，可以看到訓練集的過擬合狀況減低，模型的預測能力也略微增加，表示找到合適的超參數組合後，可以提升極限隨機樹的泛化能力</p>
+<p><strong>圖 16:</strong> 隨機搜尋預測結果與原始資料結果對比。</p>
+<img alt="No description has been provided for this image" src="./data/fig/圖片9_戴榆蓁.png"/>
+<p>透過這張折線圖，可以清楚地看到極限隨機樹模型在測試集中，原始 PM ${2.5}$ 濃度與預測 PM ${2.5}$ 濃度大致相符，表示此模型可以很好地預測短期的 PM ${2.5}$ 濃度。</p>
+<h2 id="%E8%A8%8E%E8%AB%96">討論<a class="anchor-link" href="#%E8%A8%8E%E8%AB%96">¶</a></h2><p>如果將其他污染物或是空氣組成加入資料集，是否能夠推敲出他們與 PM 2.5 之間的關聯性？</p>
+<p>極限隨機樹是否也適用於預測其他空氣物染物？如二氧化碳、戴奧辛...等？</p>
+<h2 id="%E5%B0%8F%E7%B5%90">小結<a class="anchor-link" href="#%E5%B0%8F%E7%B5%90">¶</a></h2><p>極限隨機樹相當適合用來預測 PM 2.5 的濃度，因為其資料量相當龐大，極限隨機樹正好可以快速地建立多個不同的樹模型（基學習器），集成後可以得到相當不錯的非線性模型。</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=ee01744d">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h1 id="%E6%A8%A1%E5%9E%8B%E4%BA%8C%EF%BC%9A%E6%94%AF%E6%92%90%E5%90%91%E9%87%8F%E5%9B%9E%E6%AD%B8%EF%BC%88Support-Vector-Regression,-SVR%EF%BC%89">模型二：支撐向量回歸（Support Vector Regression, SVR）<a class="anchor-link" href="#%E6%A8%A1%E5%9E%8B%E4%BA%8C%EF%BC%9A%E6%94%AF%E6%92%90%E5%90%91%E9%87%8F%E5%9B%9E%E6%AD%B8%EF%BC%88Support-Vector-Regression,-SVR%EF%BC%89">¶</a></h1><h2 id="%E4%BB%8B%E7%B4%B9">介紹<a class="anchor-link" href="#%E4%BB%8B%E7%B4%B9">¶</a></h2><ul>
+<li>SVR 找到一條最平滑的函數，讓所有數據點到迴歸式的距離最近，使其在允許的誤差範圍內（ε-insensitive zone）逼近資料，不強求完全貼合。</li>
+<li>模型只會由靠近邊界的資料點（support vectors）決定，利用這些資料決定預測結果，只有在虛線之外的的誤差才會被計算，因此能避免過度擬合。</li>
+<li>透過非線性之核函數（RBF），可適用於 PM2.5 這類受多重環境因素影響的非線性預測問題。</li>
+</ul>
+<img alt="No description has been provided for this image" src="./data/fig/SVR_regression.png"/>
+<p>圖 17：SVR 概念示意圖。</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=1ddfcdc0">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="%E6%A8%A1%E5%9E%8B%E5%85%AC%E5%BC%8F">模型公式<a class="anchor-link" href="#%E6%A8%A1%E5%9E%8B%E5%85%AC%E5%BC%8F">¶</a></h2><h3 id="SVR-%E7%9B%AE%E6%A8%99%E5%87%BD%E6%95%B8">SVR 目標函數<a class="anchor-link" href="#SVR-%E7%9B%AE%E6%A8%99%E5%87%BD%E6%95%B8">¶</a></h3><p>支撐向量回歸（SVR）的核心思想是在控制模型複雜度的同時，
+允許預測誤差落在一個 $\varepsilon$ 容忍區間內。
+其目標函數可表示為：</p>
+<p>$$
+J = C \sum_{n=1}^{N} E_{\varepsilon}\bigl(\hat{y}(x_n) - y_n\bigr)
++ \frac{1}{2}\lVert \mathbf{w} \rVert^2
+$$</p>
+<p>其中：</p>
+<ul>
+<li>$C$ 為正則化參數，用以平衡模型平滑度與誤差懲罰</li>
+<li>$\mathbf{w}$ 為模型權重向量</li>
+<li>$E_{\varepsilon}(\cdot)$ 為 $\varepsilon$-insensitive loss function</li>
+</ul>
+<h3 id="$%5Cvarepsilon$-insensitive-Loss-Function">$\varepsilon$-insensitive Loss Function<a class="anchor-link" href="#$%5Cvarepsilon$-insensitive-Loss-Function">¶</a></h3><p>SVR 採用 $\varepsilon$-insensitive loss，
+對於落在容許誤差範圍內的預測誤差不予懲罰，其定義為：</p>
+<div style="display:flex; align-items:flex-start; gap:px;">
+<!-- 左：公式 -->
+<div style="flex:1;">
+<p>$$
+E_{\varepsilon}(z) =
+\begin{cases}
+|z| - \varepsilon, &amp; \text{if } |z| &gt; \varepsilon \\
+0, &amp; \text{otherwise}
+\end{cases}
+$$</p>
+</div>
+<!-- 右：圖片 + 圖說 -->
+<figure style="flex:1; text-align:center; margin:0;">
+<img alt="No description has been provided for this image" src="./data/fig/Loss_function.png" width="300"/>
+<figcaption style="font-size:16px; margin-top:6px;">
+      圖 18：$\varepsilon$-insensitive loss function 示意圖
+    </figcaption>
+</figure>
+</div>
+<p>此設計具有以下特性：</p>
+<ul>
+<li>當誤差小於 $\varepsilon$ 時，不會對模型造成懲罰，有助於忽略微小雜訊</li>
+<li>當誤差大於 $\varepsilon$ 時，懲罰以線性方式增加，相較於 MSE 對離群值更友善</li>
+</ul>
+<h3 id="RBF-%E6%A0%B8%E5%87%BD%E6%95%B8%EF%BC%88Radial-Basis-Function-Kernel%EF%BC%89">RBF 核函數（Radial Basis Function Kernel）<a class="anchor-link" href="#RBF-%E6%A0%B8%E5%87%BD%E6%95%B8%EF%BC%88Radial-Basis-Function-Kernel%EF%BC%89">¶</a></h3><p>為處理非線性關係，本研究採用徑向基底函數（RBF）作為核函數，
+其數學形式為：</p>
+<p>$$
+K(\mathbf{x}_i, \mathbf{x}_j)
+= \exp\bigl(-\gamma \lVert \mathbf{x}_i - \mathbf{x}_j \rVert^2 \bigr)
+$$</p>
+<p>RBF 核可將原始特徵映射至高維空間，
+使線性模型能有效描述非線性資料結構。</p>
+<h3 id="SVR-%E4%B8%BB%E8%A6%81%E8%B6%85%E5%8F%83%E6%95%B8%E8%AA%AA%E6%98%8E">SVR 主要超參數說明<a class="anchor-link" href="#SVR-%E4%B8%BB%E8%A6%81%E8%B6%85%E5%8F%83%E6%95%B8%E8%AA%AA%E6%98%8E">¶</a></h3><p>SVR 模型中包含三個關鍵超參數：</p>
+<ul>
+<li><p><strong>$C$（正則化參數）</strong><br>
+控制模型對誤差的容忍程度，$C$ 越大表示對誤差懲罰越嚴格，模型複雜度越高。</br></p>
 </li>
-<li><p>Piller, C. (2022). Blots on a field? <em>Science</em>, <em>377</em>(6604), 358–363. <a href="https://doi.org/10.1126/science.add9993">https://doi.org/10.1126/science.add9993</a></p>
+<li><p><strong>$\gamma$（RBF 核寬度）</strong><br>
+控制樣本影響範圍，$\gamma$ 越大模型對局部變化越敏感；
+$\gamma$ 越小則模型趨於平滑。</br></p>
 </li>
-</ol>
+<li><p><strong>$\varepsilon$（誤差容許區間）</strong><br>
+決定預測誤差中可被忽略的範圍，
+有助於提升模型對噪音資料的穩健性。</br></p>
+</li>
+</ul>
+<p>本研究透過交叉驗證（cross-validation）選擇最佳超參數組合，
+以提升模型之預測效能與泛化能力。</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=728d5fa2-7224-47e4-aced-9df731b903b9">
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=94ebb301">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h3 id="%E6%B5%81%E7%A8%8B">流程<a class="anchor-link" href="#%E6%B5%81%E7%A8%8B">¶</a></h3><ul>
+<li><p>我們使用支撐向量回歸（Support Vector Regression, SVR）
+作為 PM2.5 濃度預測模型，並以 RBF 核函數
+處理氣象與時間特徵間之非線性關係。
+模型以前處理後之氣象變數、
+時間特徵與滯後特徵作為輸入，
+並以 2021–2022 年資料作為訓練集、
+2023 年作為驗證集、
+2024 年作為測試集。</p>
+</li>
+<li><p>為提升模型穩定性，所有輸入特徵皆經標準化處理。
+設定 SVR 模型超參數（C、gamma 與 epsilon）
+透過 Grid Search 搭配五折交叉驗證進行最佳化，
+並以 RMSE 作為評估指標。</p>
+</li>
+<li><p>為探討 PM2.5 時間滯後關係（lag features）
+對模型預測能力之影響，
+本研究設計兩種不同的特徵設定進行比較，
+其模型架構與訓練流程完全相同，
+僅在輸入特徵是否包含 lag 有差異。</p>
+</li>
+</ul>
+<ul>
+<li><strong>SVR-Lag</strong>：使用完整特徵集合（包含 PM2.5 lag）</li>
+<li><strong>SVR-NoLag</strong>：移除所有 PM2.5 lag 特徵，其餘設定皆相同</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=d4bf8234">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h3 id="%E7%89%B9%E5%BE%B5%E8%A8%AD%E5%AE%9A%E4%B8%80%EF%BC%9A%E5%8C%85%E5%90%AB-PM2.5-%E8%88%87%E6%B0%A3%E8%B1%A1%E8%AE%8A%E6%95%B8%E4%B9%8B%E6%BB%AF%E5%BE%8C%E7%89%B9%E5%BE%B5%EF%BC%88SVR-Lag%EF%BC%89">特徵設定一：包含 PM2.5 與氣象變數之滯後特徵（SVR-Lag）<a class="anchor-link" href="#%E7%89%B9%E5%BE%B5%E8%A8%AD%E5%AE%9A%E4%B8%80%EF%BC%9A%E5%8C%85%E5%90%AB-PM2.5-%E8%88%87%E6%B0%A3%E8%B1%A1%E8%AE%8A%E6%95%B8%E4%B9%8B%E6%BB%AF%E5%BE%8C%E7%89%B9%E5%BE%B5%EF%BC%88SVR-Lag%EF%BC%89">¶</a></h3><p>在第一種設定中，模型輸入特徵包含：</p>
+<p>（1）即時氣象變數</p>
+<p>（2）時間特徵（hour、weekday、month、season）</p>
+<p>（3）PM2.5 與主要氣象變數在1、3、6、12 與 24 小時之滯後項（lag features）。</p>
+<p>主要在找出污染濃度的時間延續性與累積效應。</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=4f05ef59">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h3 id="%E7%89%B9%E5%BE%B5%E8%A8%AD%E5%AE%9A%E4%BA%8C%EF%BC%9A%E4%B8%8D%E5%8C%85%E5%90%AB-PM2.5-%E6%BB%AF%E5%BE%8C%E7%89%B9%E5%BE%B5%EF%BC%88SVR-NoLag%EF%BC%89">特徵設定二：不包含 PM2.5 滯後特徵（SVR-NoLag）<a class="anchor-link" href="#%E7%89%B9%E5%BE%B5%E8%A8%AD%E5%AE%9A%E4%BA%8C%EF%BC%9A%E4%B8%8D%E5%8C%85%E5%90%AB-PM2.5-%E6%BB%AF%E5%BE%8C%E7%89%B9%E5%BE%B5%EF%BC%88SVR-NoLag%EF%BC%89">¶</a></h3><p>第二種設定中，模型僅使用即時氣象變數與時間特徵作為輸入，
+並刻意移除所有 PM2.5 滯後相關欄位，
+以評估模型在缺乏歷史污染資訊下的預測能力。</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=57f67100">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h1 id="%E6%A8%A1%E5%9E%8B%E7%B5%90%E6%9E%9C">模型結果<a class="anchor-link" href="#%E6%A8%A1%E5%9E%8B%E7%B5%90%E6%9E%9C">¶</a></h1><h2 id="1.-SVR%E5%8C%85%E5%90%ABLag%E9%A0%85-V.S.-SVR%E4%B8%8D%E5%8C%85%E5%90%ABLag%E9%A0%85">1. SVR包含Lag項 V.S. SVR不包含Lag項<a class="anchor-link" href="#1.-SVR%E5%8C%85%E5%90%ABLag%E9%A0%85-V.S.-SVR%E4%B8%8D%E5%8C%85%E5%90%ABLag%E9%A0%85">¶</a></h2>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=64105351">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<div style="font-size: 18px; line-height: 1.6;">
+<table>
+<caption style="caption-side: top; font-weight: bold; margin-bottom: 18px;">
+      表 10：SVR 模型於是否包含 PM2.5 滯後特徵下之預測效能比較
+    </caption>
+<tr>
+<th>模型</th>
+<th>特徵設定</th>
+<th>Validation RMSE</th>
+<th>Test RMSE</th>
+<th>Validation R²</th>
+<th>Test R²</th>
+</tr>
+<tr>
+<td>SVR-Lag</td>
+<td>含 PM2.5 滯後特徵</td>
+<td>3.998</td>
+<td>3.880</td>
+<td>0.828</td>
+<td>0.838</td>
+</tr>
+<tr>
+<td>SVR-NoLag</td>
+<td>不含 PM2.5 滯後特徵</td>
+<td>8.248</td>
+<td>8.359</td>
+<td>0.270</td>
+<td>0.246</td>
+</tr>
+</table>
+</div>
+<p>結果顯示，加入 PM2.5 滯後特徵可大幅提升 SVR 模型之預測能力，
+顯示污染濃度具有顯著的時間延續性，
+僅依賴即時氣象條件不足以描述短期變化行為，
+因此後續分析僅針對 SVR-Lag 模型進行深入討論。</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=6b7c0737">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="2.--%E6%A8%A1%E5%9E%8B%E6%B3%9B%E5%8C%96%E8%83%BD%E5%8A%9B">2.  模型泛化能力<a class="anchor-link" href="#2.--%E6%A8%A1%E5%9E%8B%E6%B3%9B%E5%8C%96%E8%83%BD%E5%8A%9B">¶</a></h2><img alt="No description has been provided for this image" src="./data/fig/SVR_lag_validation_data.png"/>
+<p>圖 19：SVR-Lag 模型於驗證資料集之 PM2.5 預測時間序列結果。模型預測值與實測資料高度一致。</p>
+<img alt="No description has been provided for this image" src="./data/fig/SVR_lag_test_data.png"/>
+<p>圖 20：SVR-Lag 模型於測試資料集之 PM2.5 預測時間序列結果。顯示模型具有良好的泛化能力。</p>
+<img alt="No description has been provided for this image" src="./data/fig/Validation_Residual.png"/>
+<p>圖21：驗證模型預測值減去實際觀測值（Predicted − Observed）之殘差圖。</p>
+<img alt="No description has been provided for this image" src="./data/fig/SVR_Lag_Test_Residual_Distribution.png"/>
+<p>圖 22：測試模型預測值減去實際觀測值（Predicted − Observed）之殘差圖。</p>
+<img alt="No description has been provided for this image" src="./data/fig/Validation_Scatter.png"/>
+<p>圖 23：SVR-Lag 模型於驗證資料集之 PM2.5 預測散佈圖。</p>
+<p>圖中橫軸為實際觀測值，縱軸為模型預測值，對角線表示理想預測情況（Predicted = Observed），顯示 SVR-Lag 模型於驗證資料上具有良好預測一致性（R² = 0.828）。</p>
+<img alt="No description has been provided for this image" src="./data/fig/SVR_Lag_Test_Scatter_Plot.png"/>
+<p>圖 24：SVR-Lag 模型於測試資料集之 PM2.5 預測散佈圖。</p>
+<p>結果顯示模型預測值多集中於對角線附近，即使在未參與訓練之資料上，仍能維持良好預測一致性（R² = 0.838），顯示模型具有良好泛化能力。</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=ae35ca9e">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="3.%E6%A8%A1%E5%9E%8B%E9%87%8D%E8%A6%81%E7%89%B9%E5%BE%B5%E5%80%BC%E5%88%97%E8%A1%A8">3.模型重要特徵值列表<a class="anchor-link" href="#3.%E6%A8%A1%E5%9E%8B%E9%87%8D%E8%A6%81%E7%89%B9%E5%BE%B5%E5%80%BC%E5%88%97%E8%A1%A8">¶</a></h2><p>&lt;&lt;差圖片&gt;&gt;</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=2006d266">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="%E5%B0%8F%E7%B5%90">小結<a class="anchor-link" href="#%E5%B0%8F%E7%B5%90">¶</a></h2><p>經過重要性分析（Permutation Importance）
+PM2.5 的短時間滯後項（PM25_lag1）為最關鍵的預測因子，
+顯示 PM2.5 濃度具有明顯的時間延續性與自相關特性，
+並解釋了加入滯後特徵後模型預測效能顯著提升的原因。</p>
+<p>除污染物自身的滯後項外，相對濕度（RH）與氣溫（TEMP）亦具有較高的重要性，
+反映氣象條件對污染累積與擴散過程之影響。
+同時，RH 與 TEMP 的短時間滯後項仍具一定貢獻。</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=fe3f1230">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h1 id="%E7%B8%BD%E7%B5%90">總結<a class="anchor-link" href="#%E7%B8%BD%E7%B5%90">¶</a></h1><p>整體而言，極限隨機樹模型和 SVR-Lag 模型皆能有效整合污染物時間依賴性與氣象因子影響， 測試集 PM2.5 預測準確度分別是 0.836 和 0.838，顯示此兩種模型皆適用於都市空氣品質短期預測分析。</p>
+<p>整體而言，極限隨機樹模型與 SVR-Lag 模型皆能有效整合污染物的時間依賴性與氣象因子影響，在測試集上 PM2.5 預測準確度分別達 0.836 與 0.838，顯示兩種模型在短期空氣品質預測上皆具有良好表現。儘管兩者整體準確度相近，隨機樹模型在特徵重要性分析上具有較佳的解釋能力，而 SVR-Lag 模型則在處理非線性關係時展現穩定的泛化表現。此結果說明，在納入滯後特徵以控制 PM2.5 自相關後，氣象因子仍能提供有效的補充資訊，支持本研究以資料驅動方法分析都市 PM2.5 變化的可行性。</p>
+<p>&lt;&lt;還有個表格&gt;&gt;</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=6635fdf2">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7907,6 +8485,410 @@ $$</p>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=4cf1bc17">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h1 id="%E5%8F%83%E8%80%83%E6%96%87%E7%8D%BB">參考文獻<a class="anchor-link" href="#%E5%8F%83%E8%80%83%E6%96%87%E7%8D%BB">¶</a></h1><ol>
+<li>Geurts, P.,et al.(2006). Extremely randomized trees. <em>Machine Learning</em>, 63(1), 3-42. <a href="https://doi.org/10.1007/s10994-006-6226-1">https://doi.org/10.1007/s10994-006-6226-1</a></li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=845245b9">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=a98075b0">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="%E6%96%B9%E6%B3%95">方法<a class="anchor-link" href="#%E6%96%B9%E6%B3%95">¶</a></h2><h3 id="%E6%A8%A1%E5%9E%8B%E4%B8%80%EF%BC%9A%E6%A5%B5%E9%99%90%E9%9A%A8%E6%A9%9F%E6%A8%B9%E6%A8%A1%E5%9E%8B">模型一：極限隨機樹模型<a class="anchor-link" href="#%E6%A8%A1%E5%9E%8B%E4%B8%80%EF%BC%9A%E6%A5%B5%E9%99%90%E9%9A%A8%E6%A9%9F%E6%A8%B9%E6%A8%A1%E5%9E%8B">¶</a></h3>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=82615dba">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">ExtraTreesRegressor</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">mean_squared_error</span><span class="p">,</span> <span class="n">r2_score</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">StandardScaler</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">GridSearchCV</span><span class="p">,</span> <span class="n">RandomizedSearchCV</span>
+
+<span class="c1"># ============================================================</span>
+<span class="c1"># 1. 讀取資料（已經分好 train / val / test）</span>
+<span class="c1"># ============================================================</span>
+<span class="n">train</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">"./data/dataset/train_2021_2022.csv"</span><span class="p">)</span>
+<span class="n">valid</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">"./data/dataset/val_2023.csv"</span><span class="p">)</span>
+<span class="n">test</span>  <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">"./data/dataset/test_2024.csv"</span><span class="p">)</span>
+
+<span class="c1"># ============================================================</span>
+<span class="c1"># 1.5 日期時間欄位處理（放在讀資料後面）</span>
+<span class="c1"># ============================================================</span>
+
+<span class="k">def</span> <span class="nf">process_datetime</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+    <span class="k">if</span> <span class="s2">"datetime"</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+        <span class="n">df</span><span class="p">[</span><span class="s2">"datetime"</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">"datetime"</span><span class="p">])</span>
+        <span class="n">df</span><span class="p">[</span><span class="s2">"year"</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">"datetime"</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">year</span>
+        <span class="n">df</span><span class="p">[</span><span class="s2">"month"</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">"datetime"</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">month</span>
+        <span class="n">df</span><span class="p">[</span><span class="s2">"day"</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">"datetime"</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">day</span>
+        <span class="n">df</span><span class="p">[</span><span class="s2">"hour"</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">"datetime"</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">hour</span>
+        <span class="n">df</span><span class="p">[</span><span class="s2">"dayofweek"</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">"datetime"</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">dayofweek</span>
+
+        <span class="c1"># 若是逐小時 PM2.5，加入循環特徵（效果好）</span>
+        <span class="n">df</span><span class="p">[</span><span class="s2">"sin_hour"</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">df</span><span class="p">[</span><span class="s2">"hour"</span><span class="p">]</span><span class="o">/</span><span class="mi">24</span><span class="p">)</span>
+        <span class="n">df</span><span class="p">[</span><span class="s2">"cos_hour"</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">df</span><span class="p">[</span><span class="s2">"hour"</span><span class="p">]</span><span class="o">/</span><span class="mi">24</span><span class="p">)</span>
+
+        <span class="c1"># 刪掉原本的字串 datetime</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">"datetime"</span><span class="p">],</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">df</span>
+
+<span class="n">train</span> <span class="o">=</span> <span class="n">process_datetime</span><span class="p">(</span><span class="n">train</span><span class="p">)</span>
+<span class="n">valid</span> <span class="o">=</span> <span class="n">process_datetime</span><span class="p">(</span><span class="n">valid</span><span class="p">)</span>
+<span class="n">test</span>  <span class="o">=</span> <span class="n">process_datetime</span><span class="p">(</span><span class="n">test</span><span class="p">)</span>
+
+
+<span class="c1"># ============================================================</span>
+<span class="c1"># 2. 定義特徵與標籤</span>
+<span class="c1"># ============================================================</span>
+<span class="n">target</span> <span class="o">=</span> <span class="s2">"PM25"</span>
+
+<span class="c1"># 特徵 = 除了 PM2.5 以外的全部欄位（假設 datetime 已移除或保留亦可）</span>
+<span class="n">features</span> <span class="o">=</span> <span class="p">[</span><span class="n">col</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">train</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="n">col</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"PM25"</span><span class="p">]]</span>
+
+<span class="n">X_train</span> <span class="o">=</span> <span class="n">train</span><span class="p">[</span><span class="n">features</span><span class="p">]</span>
+<span class="n">y_train</span> <span class="o">=</span> <span class="n">train</span><span class="p">[</span><span class="n">target</span><span class="p">]</span>
+
+<span class="n">X_valid</span> <span class="o">=</span> <span class="n">valid</span><span class="p">[</span><span class="n">features</span><span class="p">]</span>
+<span class="n">y_valid</span> <span class="o">=</span> <span class="n">valid</span><span class="p">[</span><span class="n">target</span><span class="p">]</span>
+
+<span class="n">X_test</span>  <span class="o">=</span> <span class="n">test</span><span class="p">[</span><span class="n">features</span><span class="p">]</span>
+<span class="n">y_test</span>  <span class="o">=</span> <span class="n">test</span><span class="p">[</span><span class="n">target</span><span class="p">]</span>
+
+<span class="c1"># ============================================================</span>
+<span class="c1"># 3. 標準化（以 train 作為 fit，避免資料洩漏）</span>
+<span class="c1"># ============================================================</span>
+<span class="n">scaler</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
+<span class="n">X_train_scaled</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+<span class="n">X_valid_scaled</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_valid</span><span class="p">)</span>
+<span class="n">X_test_scaled</span>  <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+
+<span class="c1"># ============================================================</span>
+<span class="c1"># 4. 訓練 Extremely Randomized Trees</span>
+<span class="c1"># ============================================================</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">ExtraTreesRegressor</span><span class="p">(</span>
+    <span class="n">n_estimators</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span>
+    <span class="n">max_depth</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">min_samples_split</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+    <span class="n">min_samples_leaf</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
+    <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span>
+<span class="p">)</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_scaled</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="c1"># ============================================================</span>
+<span class="c1"># 5. 預測與評估</span>
+<span class="c1"># ============================================================</span>
+<span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+    <span class="n">rmse</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">))</span>
+    <span class="n">r2</span>   <span class="o">=</span> <span class="n">r2_score</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> RMSE = </span><span class="si">{</span><span class="n">rmse</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">, R² = </span><span class="si">{</span><span class="n">r2</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="n">y_train_pred</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_train_scaled</span><span class="p">)</span>
+<span class="n">y_valid_pred</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_valid_scaled</span><span class="p">)</span>
+<span class="n">y_test_pred</span>  <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test_scaled</span><span class="p">)</span>
+
+
+<span class="n">evaluate</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">y_train_pred</span><span class="p">,</span> <span class="s2">"Train"</span><span class="p">)</span>
+<span class="n">evaluate</span><span class="p">(</span><span class="n">y_valid</span><span class="p">,</span> <span class="n">y_valid_pred</span><span class="p">,</span> <span class="s2">"Validation"</span><span class="p">)</span>
+<span class="n">evaluate</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span>  <span class="n">y_test_pred</span><span class="p">,</span> <span class="s2">"Test"</span><span class="p">)</span>
+
+<span class="c1"># ============================================================</span>
+<span class="c1"># 6. 特徵重要性</span>
+<span class="c1"># ============================================================</span>
+<span class="n">importance</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s2">"feature"</span><span class="p">:</span> <span class="n">features</span><span class="p">,</span>
+    <span class="s2">"importance"</span><span class="p">:</span> <span class="n">model</span><span class="o">.</span><span class="n">feature_importances_</span>
+<span class="p">})</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">"importance"</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Top 10 most important features:"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">importance</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=0211dd6b">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h3 id="%E6%A8%A1%E5%9E%8B%E4%BA%8C%EF%BC%9A%E6%94%AF%E6%92%90%E5%90%91%E9%87%8F%E5%9B%9E%E6%AD%B8%EF%BC%88Support-Vector-Regression,-SVR%EF%BC%89">模型二：支撐向量回歸（Support Vector Regression, SVR）<a class="anchor-link" href="#%E6%A8%A1%E5%9E%8B%E4%BA%8C%EF%BC%9A%E6%94%AF%E6%92%90%E5%90%91%E9%87%8F%E5%9B%9E%E6%AD%B8%EF%BC%88Support-Vector-Regression,-SVR%EF%BC%89">¶</a></h3>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=0e6481b8">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="n">train</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">'./data/dataset/train_2021_2022.csv'</span><span class="p">)</span>
+<span class="n">val</span>   <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">'./data/dataset/val_2023.csv'</span><span class="p">)</span>
+<span class="n">test</span>  <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">'./data/dataset/test_2024.csv'</span><span class="p">)</span>
+
+<span class="c1">#測試沒有lag的版本模型</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="k">def</span> <span class="nf">remove_pm25_lag</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+    <span class="n">cols</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+    <span class="n">keep_second</span> <span class="o">=</span> <span class="p">{</span><span class="n">cols</span><span class="p">[</span><span class="mi">1</span><span class="p">]}</span>   <span class="c1"># 永遠保留第二欄</span>
+
+    <span class="c1"># 只要欄位名稱裡面包含 PM25_lag 就刪除</span>
+    <span class="n">cols_to_drop</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">cols</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">keep_second</span> <span class="ow">and</span> <span class="s2">"PM25_lag"</span> <span class="ow">in</span> <span class="n">c</span><span class="p">]</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">cols_to_drop</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">df</span>
+
+<span class="c1"># ===== 資料版本一：SVR-Lag（保留所有 lag 特徵） =====</span>
+<span class="n">train_lag</span> <span class="o">=</span> <span class="n">train</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">val_lag</span>   <span class="o">=</span> <span class="n">val</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">test_lag</span>  <span class="o">=</span> <span class="n">test</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+<span class="c1"># ===== 資料版本二：SVR-NoLag（移除 PM2.5 lag 特徵） =====</span>
+<span class="n">train_nolag</span> <span class="o">=</span> <span class="n">remove_pm25_lag</span><span class="p">(</span><span class="n">train</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
+<span class="n">val_nolag</span>   <span class="o">=</span> <span class="n">remove_pm25_lag</span><span class="p">(</span><span class="n">val</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
+<span class="n">test_nolag</span>  <span class="o">=</span> <span class="n">remove_pm25_lag</span><span class="p">(</span><span class="n">test</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=a3c9c709">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p><strong>以下 SVR 模型訓練、超參數搜尋與評估流程
+在 SVR-Lag 與 SVR-NoLag 兩種資料設定下完全相同，
+僅差在輸入特徵有沒有滯留。</strong></p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=63f4fbc8">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>CPU版本</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=6650e05f">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">StandardScaler</span>
+<span class="kn">from</span> <span class="nn">sklearn.svm</span> <span class="kn">import</span> <span class="n">SVR</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">GridSearchCV</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">mean_squared_error</span><span class="p">,</span> <span class="n">mean_absolute_error</span><span class="p">,</span> <span class="n">r2_score</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="k">def</span> <span class="nf">run_svr</span><span class="p">(</span><span class="n">train_df</span><span class="p">,</span> <span class="n">val_df</span><span class="p">,</span> <span class="n">test_df</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'PM25'</span><span class="p">,</span> <span class="n">sample_size</span><span class="o">=</span><span class="mi">8000</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">):</span>
+    <span class="c1"># 移除時間欄位</span>
+    <span class="n">train_df</span> <span class="o">=</span> <span class="n">train_df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">'datetime'</span><span class="p">])</span>
+    <span class="n">val_df</span>   <span class="o">=</span> <span class="n">val_df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">'datetime'</span><span class="p">])</span>
+    <span class="n">test_df</span>  <span class="o">=</span> <span class="n">test_df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">'datetime'</span><span class="p">])</span>
+
+    <span class="n">y_train</span> <span class="o">=</span> <span class="n">train_df</span><span class="p">[</span><span class="n">label</span><span class="p">]</span>
+    <span class="n">y_val</span>   <span class="o">=</span> <span class="n">val_df</span><span class="p">[</span><span class="n">label</span><span class="p">]</span>
+    <span class="n">y_test</span>  <span class="o">=</span> <span class="n">test_df</span><span class="p">[</span><span class="n">label</span><span class="p">]</span>
+
+    <span class="n">X_train_raw</span> <span class="o">=</span> <span class="n">train_df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="n">label</span><span class="p">])</span>
+    <span class="n">X_val_raw</span>   <span class="o">=</span> <span class="n">val_df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="n">label</span><span class="p">])</span>
+    <span class="n">X_test_raw</span>  <span class="o">=</span> <span class="n">test_df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="n">label</span><span class="p">])</span>
+
+    <span class="n">scaler</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
+    <span class="n">scaler</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_raw</span><span class="p">)</span>
+    <span class="n">X_train</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X_train_raw</span><span class="p">)</span>
+    <span class="n">X_val</span>   <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_val_raw</span><span class="p">)</span>
+    <span class="n">X_test</span>  <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_test_raw</span><span class="p">)</span>
+
+    <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">random_state</span><span class="p">)</span>
+    <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">X_train</span><span class="p">),</span> <span class="n">sample_size</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">X_svr_train</span> <span class="o">=</span> <span class="n">X_train</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+    <span class="n">y_svr_train</span> <span class="o">=</span> <span class="n">y_train</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+
+    <span class="n">param_grid</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">'C'</span><span class="p">:</span> <span class="p">[</span><span class="mi">50</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">150</span><span class="p">],</span>
+    <span class="s1">'gamma'</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+    <span class="s1">'epsilon'</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">]</span>
+    <span class="p">}</span>
+
+    <span class="n">grid</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span>
+        <span class="n">SVR</span><span class="p">(),</span>
+        <span class="n">param_grid</span><span class="p">,</span>
+        <span class="n">scoring</span><span class="o">=</span><span class="s1">'neg_mean_squared_error'</span><span class="p">,</span>
+        <span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+        <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span>
+    <span class="p">)</span>
+    <span class="n">grid</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_svr_train</span><span class="p">,</span> <span class="n">y_svr_train</span><span class="p">)</span>
+
+    <span class="n">best_svr</span> <span class="o">=</span> <span class="n">SVR</span><span class="p">(</span><span class="o">**</span><span class="n">grid</span><span class="o">.</span><span class="n">best_params_</span><span class="p">)</span>
+    <span class="n">best_svr</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+    <span class="n">y_val_pred</span>  <span class="o">=</span> <span class="n">best_svr</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_val</span><span class="p">)</span>
+    <span class="n">y_test_pred</span> <span class="o">=</span> <span class="n">best_svr</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s1">'val_rmse'</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_val</span><span class="p">,</span> <span class="n">y_val_pred</span><span class="p">)),</span>
+        <span class="s1">'test_rmse'</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_test_pred</span><span class="p">)),</span>
+        <span class="s1">'val_r2'</span><span class="p">:</span> <span class="n">r2_score</span><span class="p">(</span><span class="n">y_val</span><span class="p">,</span> <span class="n">y_val_pred</span><span class="p">),</span>
+        <span class="s1">'test_r2'</span><span class="p">:</span> <span class="n">r2_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_test_pred</span><span class="p">),</span>
+        <span class="s1">'y_val'</span><span class="p">:</span> <span class="n">y_val</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+        <span class="s1">'y_val_pred'</span><span class="p">:</span> <span class="n">y_val_pred</span><span class="p">,</span>
+        <span class="s1">'y_test'</span><span class="p">:</span> <span class="n">y_test</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+        <span class="s1">'y_test_pred'</span><span class="p">:</span> <span class="n">y_test_pred</span><span class="p">,</span>
+        <span class="s1">'X_val'</span><span class="p">:</span> <span class="n">X_val</span><span class="p">,</span>
+        <span class="s1">'best_svr'</span><span class="p">:</span> <span class="n">best_svr</span><span class="p">,</span>
+        <span class="s1">'feature_names'</span><span class="p">:</span> <span class="n">X_val_raw</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=72457b81">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">result_lag</span> <span class="o">=</span> <span class="n">run_svr</span><span class="p">(</span><span class="n">train_lag</span><span class="p">,</span> <span class="n">val_lag</span><span class="p">,</span> <span class="n">test_lag</span><span class="p">)</span>
+<span class="n">result_nolag</span> <span class="o">=</span> <span class="n">run_svr</span><span class="p">(</span><span class="n">train_nolag</span><span class="p">,</span> <span class="n">val_nolag</span><span class="p">,</span> <span class="n">test_nolag</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=00fc5245">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>res = result_lag</p>
+<p>y_val = res['y_val']
+y_val_pred = res['y_val_pred']
+y_test = res['y_test']
+y_test_pred = res['y_test_pred']
+X_val = res['X_val']
+best_svr = res['best_svr']</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=ade88157">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>重要特徵值列表</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=ece5dd3b">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.inspection</span> <span class="kn">import</span> <span class="n">permutation_importance</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="c1"># 從 res 取資料</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="s1">'best_svr'</span><span class="p">]</span>
+<span class="n">X_val</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="s1">'X_val'</span><span class="p">]</span>
+<span class="n">y_val</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="s1">'y_val'</span><span class="p">]</span>
+<span class="n">features</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="s1">'feature_names'</span><span class="p">]</span>
+
+<span class="c1"># permutation importance</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">permutation_importance</span><span class="p">(</span>
+    <span class="n">model</span><span class="p">,</span>
+    <span class="n">X_val</span><span class="p">,</span>
+    <span class="n">y_val</span><span class="p">,</span>
+    <span class="n">n_repeats</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+    <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
+    <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span>
+<span class="p">)</span>
+
+<span class="n">importance</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">importances_mean</span>
+<span class="n">indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">importance</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="n">top_n</span> <span class="o">=</span> <span class="mi">10</span>  
+
+<span class="c1"># 繪圖</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">barh</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">top_n</span><span class="p">),</span> <span class="n">importance</span><span class="p">[</span><span class="n">indices</span><span class="p">][:</span><span class="n">top_n</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">top_n</span><span class="p">),</span> <span class="p">[</span><span class="n">features</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">indices</span><span class="p">[:</span><span class="n">top_n</span><span class="p">]])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">invert_yaxis</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Top 8 Feature Importances (Permutation Importance, SVR-Lag)"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">"Importance Score"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># 建立 DataFrame</span>
+<span class="n">fi_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s2">"feature"</span><span class="p">:</span> <span class="n">features</span><span class="p">,</span>
+    <span class="s2">"importance"</span><span class="p">:</span> <span class="n">importance</span>
+<span class="p">})</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">"importance"</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">fi_df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
