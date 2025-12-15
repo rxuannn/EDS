@@ -3,7 +3,7 @@
 <html lang="en">
 <head><meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>project</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<title>不同機器學習方法在中壢區空氣品質（PM2.5）預測中的應用與比較</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <style type="text/css">
     pre { line-height: 125%; }
 td.linenos .normal { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
@@ -7518,7 +7518,7 @@ a.anchor-link {
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h1 id="%E4%B8%8D%E5%90%8C%E6%A9%9F%E5%99%A8%E5%AD%B8%E7%BF%92%E6%96%B9%E6%B3%95%E5%9C%A8%E4%B8%AD%E5%A3%A2%E5%8D%80%E7%A9%BA%E6%B0%A3%E5%93%81%E8%B3%AA%EF%BC%88PM2.5%EF%BC%89%E9%A0%90%E6%B8%AC%E4%B8%AD%E7%9A%84%E6%87%89%E7%94%A8%E8%88%87%E6%AF%94%E8%BC%83">不同機器學習方法在中壢區空氣品質（PM2.5）預測中的應用與比較<a class="anchor-link" href="#%E4%B8%8D%E5%90%8C%E6%A9%9F%E5%99%A8%E5%AD%B8%E7%BF%92%E6%96%B9%E6%B3%95%E5%9C%A8%E4%B8%AD%E5%A3%A2%E5%8D%80%E7%A9%BA%E6%B0%A3%E5%93%81%E8%B3%AA%EF%BC%88PM2.5%EF%BC%89%E9%A0%90%E6%B8%AC%E4%B8%AD%E7%9A%84%E6%87%89%E7%94%A8%E8%88%87%E6%AF%94%E8%BC%83">¶</a></h1><p><strong>戴榆蓁, 劉芳如, 吳柔萱</strong></p>
 <h2 id="%E6%91%98%E8%A6%81">摘要<a class="anchor-link" href="#%E6%91%98%E8%A6%81">¶</a></h2><p>本研究使用中壢測站 2021–2024 年之 PM2.5 與氣象資料，透過風向週期化轉換、時間特徵與滯後特徵建立多元預測模型，以探討氣象條件以及因 PM2.5 本質上具有強烈的自相關性所以也將 PM2.5 本身的的滯後因子納入考慮對後續 PM2.5 濃度的影響。結果顯示 PM2.5 本身的的滯後因子、季節性變化、風速、濕度等皆對污染累積具有貢獻，而滯後特徵能有效捕捉污染的時間依賴性，提升模型預測能力。</p>
-<h1 id="%E6%AD%A3%E6%96%87">正文<a class="anchor-link" href="#%E6%AD%A3%E6%96%87">¶</a></h1><h2 id="%E7%B7%92%E8%AB%96">緒論<a class="anchor-link" href="#%E7%B7%92%E8%AB%96">¶</a></h2><p>細懸浮微粒（PM2.5）是影響臺灣空氣品質與公共健康的重要污染物，其暴露被證實與呼吸道及心血管疾病風險上升密切相關（World Health Organization, 2021）。PM2.5 的短期變化受到多種氣象條件控制，包括風速、風向、濕度與溫度等，這些因子共同影響污染物的輸送、擴散與累積。此外，PM2.5 濃度本身具有強烈的時間自相關性，若未加入滯後資訊，模型可能會將污染累積誤判為氣象效應，因此在預測與因果分析中，加入 lag 特徵是必要的。</p>
+<h2 id="%E7%B7%92%E8%AB%96">緒論<a class="anchor-link" href="#%E7%B7%92%E8%AB%96">¶</a></h2><p>細懸浮微粒（PM2.5）是影響臺灣空氣品質與公共健康的重要污染物，其暴露被證實與呼吸道及心血管疾病風險上升密切相關（World Health Organization, 2021）。PM2.5 的短期變化受到多種氣象條件控制，包括風速、風向、濕度與溫度等，這些因子共同影響污染物的輸送、擴散與累積。此外，PM2.5 濃度本身具有強烈的時間自相關性，若未加入滯後資訊，模型可能會將污染累積誤判為氣象效應，因此在預測與因果分析中，加入 lag 特徵是必要的。</p>
 <p>在資料前處理方面，風向屬於週期性變數，若直接以角度表示會造成 0° 與 360° 被誤認為距離極大，因此需以 sine 與 cosine 進行週期嵌入以避免特徵扭曲。此外，PM2.5 與氣象條件皆呈現明顯的日夜周期與季節性特徵，因此本研究亦自時間欄位中建立 hour、weekday、month、season 等時間特徵，以更完整描述污染的時序行為。</p>
 <p>在模型選擇方面，空氣品質預測具有高度非線性結構，常需透過擅長處理複雜特徵關係的機器學習方法。隨機森林可有效捕捉多變量間的非線性關係，並提供特徵重要性分析，因此廣泛應用於環境資料預測。支撐向量回歸（SVR）則以核函數擴展能力處理複雜資料分布，並在中小型資料上保持良好預測表現。因此，本研究同時使用 RF 與 SVR，以比較其在 PM2.5 預測上之表現與解釋能力，並分析不同氣象與時間特徵對 PM2.5 濃度的影響。</p>
 <h2 id="%E8%B3%87%E6%96%99">資料<a class="anchor-link" href="#%E8%B3%87%E6%96%99">¶</a></h2><h3 id="%E8%B3%87%E6%96%99%E4%BE%86%E6%BA%90">資料來源<a class="anchor-link" href="#%E8%B3%87%E6%96%99%E4%BE%86%E6%BA%90">¶</a></h3><p>本研究使用環境部空氣品質監測網提供之歷年監測資料，選取中壢測站 2021 年 1 月 1 日至 2024 年 12 月 31 日的逐小時觀測數據。</p>
@@ -7840,7 +7840,7 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="%E6%A8%A1%E5%9E%8B%E4%B8%80-%E6%A5%B5%E9%99%90%E9%9A%A8%E6%A9%9F%E6%A8%B9%EF%BC%88Extremely-Randomized-Trees,-ET%EF%BC%89">模型一 極限隨機樹（Extremely Randomized Trees, ET）<a class="anchor-link" href="#%E6%A8%A1%E5%9E%8B%E4%B8%80-%E6%A5%B5%E9%99%90%E9%9A%A8%E6%A9%9F%E6%A8%B9%EF%BC%88Extremely-Randomized-Trees,-ET%EF%BC%89">¶</a></h1><h3 id="%E4%BB%8B%E7%B4%B9">介紹<a class="anchor-link" href="#%E4%BB%8B%E7%B4%B9">¶</a></h3><p>極限隨機樹是由 Pierre Geurts 等人在 2006 年提出的一種集成方法。它與隨機森林（Random Forest, RF）十分相似，但在決策樹的構建過程中引入了更強的隨機性，旨在進一步降低模型的方差（Variance）。
+<h2 id="%E6%A8%A1%E5%9E%8B%E4%B8%80-%E6%A5%B5%E9%99%90%E9%9A%A8%E6%A9%9F%E6%A8%B9%EF%BC%88Extremely-Randomized-Trees,-ET%EF%BC%89">模型一 極限隨機樹（Extremely Randomized Trees, ET）<a class="anchor-link" href="#%E6%A8%A1%E5%9E%8B%E4%B8%80-%E6%A5%B5%E9%99%90%E9%9A%A8%E6%A9%9F%E6%A8%B9%EF%BC%88Extremely-Randomized-Trees,-ET%EF%BC%89">¶</a></h2><h3 id="%E4%BB%8B%E7%B4%B9">介紹<a class="anchor-link" href="#%E4%BB%8B%E7%B4%B9">¶</a></h3><p>極限隨機樹是由 Pierre Geurts 等人在 2006 年提出的一種集成方法。它與隨機森林（Random Forest, RF）十分相似，但在決策樹的構建過程中引入了更強的隨機性，旨在進一步降低模型的方差（Variance）。
 極限隨機樹 的「極限」體現於兩個主要特徵：</p>
 <ul>
 <li>不使用隨機抽樣（Non-bootstrap）：不同於隨機森林使用 Bagging（拔靴法）抽取樣本子集，極限隨機樹通常使用「完整的訓練數據集」來訓練每棵決策樹，助於減少偏差（Bias）。這樣的特性也讓極限隨機樹產生連續的、分段多線性（piecewise multi-linear）的模型。</li>
@@ -7849,26 +7849,34 @@ a.anchor-link {
 <h3 id="%E7%82%BA%E4%BD%95%E9%81%A9%E7%94%A8%E6%96%BC%E9%A0%90%E6%B8%AC-PM2.5">為何適用於預測 PM2.5<a class="anchor-link" href="#%E7%82%BA%E4%BD%95%E9%81%A9%E7%94%A8%E6%96%BC%E9%A0%90%E6%B8%AC-PM2.5">¶</a></h3><p>由於 PM2.5 濃度易受到多種因素影響，如溫度、濕度、風向、風速、季節......等，因此 PM2.5 與這些變數之間會呈現複雜的非線性關係。而樹模型相當適合捕捉這種複雜的非線性，因為它不假設線性，也不假設單一特徵的影響，而是直接根據資料集自動找出這些變數與 PM2.5 之間的規則。​
 因此極限隨機樹可以透過其隨機且集成的特性降低對測站誤差、測值異常等雜訊的敏感度，以避免對錯誤資料的過度擬合。​
 此外，PM2.5是逐小時記錄的資料，因此其資料量相當龐大。然而，極限隨機樹每個節點，都會隨機選擇分裂閾值，因此可以有效降低計算時間。</p>
-<h1 id="%E6%96%B9%E6%B3%95">方法<a class="anchor-link" href="#%E6%96%B9%E6%B3%95">¶</a></h1><h3 id="%E8%B3%87%E6%96%99%E6%A8%99%E6%BA%96%E5%8C%96%EF%BC%88Feature-Scaling%EF%BC%89">資料標準化（Feature Scaling）<a class="anchor-link" href="#%E8%B3%87%E6%96%99%E6%A8%99%E6%BA%96%E5%8C%96%EF%BC%88Feature-Scaling%EF%BC%89">¶</a></h3><p>由於各輸入變數具有不同量綱與數值範圍，若直接進行模型訓練，可能導致部分變數在分裂過程中佔據過大影響。因此，本研究對所有輸入特徵進行標準化（Standardization）處理。
-對任一特徵 $x$，其標準化後的值定義為：</p>
+<h2 id="%E6%96%B9%E6%B3%95">方法<a class="anchor-link" href="#%E6%96%B9%E6%B3%95">¶</a></h2><ul>
+<li><h3 id="%E8%B3%87%E6%96%99%E6%A8%99%E6%BA%96%E5%8C%96%EF%BC%88Feature-Scaling%EF%BC%89">資料標準化（Feature Scaling）<a class="anchor-link" href="#%E8%B3%87%E6%96%99%E6%A8%99%E6%BA%96%E5%8C%96%EF%BC%88Feature-Scaling%EF%BC%89">¶</a></h3>由於各輸入變數具有不同量綱與數值範圍，若直接進行模型訓練，可能導致部分變數在分裂過程中佔據過大影響。因此，本研究對所有輸入特徵進行標準化（Standardization）處理。
+對任一特徵 $x$，其標準化後的值定義為：</li>
+</ul>
 <p>$x' = \frac{x - \mu}{\sigma}$</p>
 <p>其中 $\mu$ 與 $\sigma$ 分別為該特徵在訓練資料集中的平均值與標準差。標準化參數僅由訓練集估計，並套用至驗證集與測試集，以避免資料洩漏（data leakage）問題。</p>
-<h3 id="%E6%A5%B5%E9%99%90%E9%9A%A8%E6%A9%9F%E6%A8%B9%E8%BF%B4%E6%AD%B8%E6%A8%A1%E5%9E%8B%EF%BC%88Extra-Trees%EF%BC%89">極限隨機樹迴歸模型（Extra-Trees）<a class="anchor-link" href="#%E6%A5%B5%E9%99%90%E9%9A%A8%E6%A9%9F%E6%A8%B9%E8%BF%B4%E6%AD%B8%E6%A8%A1%E5%9E%8B%EF%BC%88Extra-Trees%EF%BC%89">¶</a></h3><p>本研究採用極限隨機樹模型（Extremely Randomized Trees, ET）進行 PM ${2.5}$ 濃度預測。該模型屬於集成方法，透過整合多棵具高度隨機性的決策樹，以降低模型變異並提升預測穩定性。
-假設模型由 $M$ 棵樹組成，第 $m$ 棵樹的預測函數為 $f_m(\mathbf{x})$，則整體模型輸出定義為：</p>
+<ul>
+<li><h3 id="%E6%A5%B5%E9%99%90%E9%9A%A8%E6%A9%9F%E6%A8%B9%E8%BF%B4%E6%AD%B8%E6%A8%A1%E5%9E%8B%EF%BC%88Extra-Trees%EF%BC%89">極限隨機樹迴歸模型（Extra-Trees）<a class="anchor-link" href="#%E6%A5%B5%E9%99%90%E9%9A%A8%E6%A9%9F%E6%A8%B9%E8%BF%B4%E6%AD%B8%E6%A8%A1%E5%9E%8B%EF%BC%88Extra-Trees%EF%BC%89">¶</a></h3>本研究採用極限隨機樹模型（Extremely Randomized Trees, ET）進行 PM ${2.5}$ 濃度預測。該模型屬於集成方法，透過整合多棵具高度隨機性的決策樹，以降低模型變異並提升預測穩定性。
+假設模型由 $M$ 棵樹組成，第 $m$ 棵樹的預測函數為 $f_m(\mathbf{x})$，則整體模型輸出定義為：</li>
+</ul>
 <p>$\hat{f}(\mathbf{x})=\frac{1}{M}\sum_{m=1}^{M}f_m(\mathbf{x})$</p>
 <p>極限隨機樹在每個節點分裂時，會在各特徵隨機產生分裂閾值，而非尋找最佳分裂點，藉此進一步降低樹與樹之間的相關性，減少過度擬合風險。</p>
-<h3 id="%E6%A8%A1%E5%9E%8B%E8%A8%93%E7%B7%B4%E8%88%87%E9%A0%90%E6%B8%AC%E6%B5%81%E7%A8%8B">模型訓練與預測流程<a class="anchor-link" href="#%E6%A8%A1%E5%9E%8B%E8%A8%93%E7%B7%B4%E8%88%87%E9%A0%90%E6%B8%AC%E6%B5%81%E7%A8%8B">¶</a></h3><p>模型使用標準化後的訓練資料進行訓練，完成後分別對訓練集、驗證集與測試集進行 PM ${2.5}$ 濃度預測。透過比較不同資料集上的模型表現，可評估模型是否具有良好的泛化能力，並檢視是否存在過度擬合情形。
-此外，亦比較資料集中是否含有滯後因子對模型預測能力的表現。</p>
-<h3 id="%E6%A8%A1%E5%9E%8B%E6%95%88%E8%83%BD%E8%A9%95%E4%BC%B0%E6%8C%87%E6%A8%99">模型效能評估指標<a class="anchor-link" href="#%E6%A8%A1%E5%9E%8B%E6%95%88%E8%83%BD%E8%A9%95%E4%BC%B0%E6%8C%87%E6%A8%99">¶</a></h3><p>本研究採用均方根誤差（Root Mean Squared Error, RMSE）與決定係數（$R^2$）作為模型效能評估指標。
-RMSE 定義為：</p>
+<ul>
+<li><h3 id="%E6%A8%A1%E5%9E%8B%E8%A8%93%E7%B7%B4%E8%88%87%E9%A0%90%E6%B8%AC%E6%B5%81%E7%A8%8B">模型訓練與預測流程<a class="anchor-link" href="#%E6%A8%A1%E5%9E%8B%E8%A8%93%E7%B7%B4%E8%88%87%E9%A0%90%E6%B8%AC%E6%B5%81%E7%A8%8B">¶</a></h3>模型使用標準化後的訓練資料進行訓練，完成後分別對訓練集、驗證集與測試集進行 PM ${2.5}$ 濃度預測。透過比較不同資料集上的模型表現，可評估模型是否具有良好的泛化能力，並檢視是否存在過度擬合情形。
+此外，亦比較資料集中是否含有滯後因子對模型預測能力的表現。</li>
+<li><h3 id="%E6%A8%A1%E5%9E%8B%E6%95%88%E8%83%BD%E8%A9%95%E4%BC%B0%E6%8C%87%E6%A8%99">模型效能評估指標<a class="anchor-link" href="#%E6%A8%A1%E5%9E%8B%E6%95%88%E8%83%BD%E8%A9%95%E4%BC%B0%E6%8C%87%E6%A8%99">¶</a></h3>本研究採用均方根誤差（Root Mean Squared Error, RMSE）與決定係數（$R^2$）作為模型效能評估指標。
+RMSE 定義為：</li>
+</ul>
 <p>$\mathrm{RMSE} = \sqrt{\frac{1}{N} \sum_{i=1}^{N} \left( y_i - \hat{y}_i \right)^2}$</p>
 <p>其中 $y_i$ 為實際觀測值，$\hat{y}_i$ 為模型預測值，$N$ 為樣本數。
 決定係數 $R^2$ 定義為：</p>
 <p>$R^2 = 1 - \frac{\sum_{i=1}^{N} \left( y_i - \hat{y}_i \right)^2}
 {\sum_{i=1}^{N} \left( y_i - \bar{y} \right)^2}$</p>
 <p>其中 $\bar{y}$ 為實際觀測值之平均值。RMSE 反映模型預測誤差大小，而 $R^2$ 則用以衡量模型對資料變異的解釋能力。</p>
-<h3 id="%E7%89%B9%E5%BE%B5%E9%87%8D%E8%A6%81%E6%80%A7%E5%88%86%E6%9E%90">特徵重要性分析<a class="anchor-link" href="#%E7%89%B9%E5%BE%B5%E9%87%8D%E8%A6%81%E6%80%A7%E5%88%86%E6%9E%90">¶</a></h3><p>為了解各輸入變數對 PM ${2.5}$ 濃度預測之相對影響，本研究利用極限隨機樹模型所提供的特徵重要性指標（feature importance）進行分析。該指標衡量各特徵在所有決策樹中，對模型誤差降低的平均貢獻程度。
-本研究依特徵重要性大小進行排序，並列出影響最大的變數，以作為後續變數篩選之依據。</p>
+<ul>
+<li><h3 id="%E7%89%B9%E5%BE%B5%E9%87%8D%E8%A6%81%E6%80%A7%E5%88%86%E6%9E%90">特徵重要性分析<a class="anchor-link" href="#%E7%89%B9%E5%BE%B5%E9%87%8D%E8%A6%81%E6%80%A7%E5%88%86%E6%9E%90">¶</a></h3>為了解各輸入變數對 PM ${2.5}$ 濃度預測之相對影響，本研究利用極限隨機樹模型所提供的特徵重要性指標（feature importance）進行分析。該指標衡量各特徵在所有決策樹中，對模型誤差降低的平均貢獻程度。
+本研究依特徵重要性大小進行排序，並列出影響最大的變數，以作為後續變數篩選之依據。</li>
+</ul>
 </div>
 </div>
 </div>
@@ -8208,7 +8216,7 @@ RMSE 定義為：</p>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="%E6%A8%A1%E5%9E%8B%E4%BA%8C%EF%BC%9A%E6%94%AF%E6%92%90%E5%90%91%E9%87%8F%E5%9B%9E%E6%AD%B8%EF%BC%88Support-Vector-Regression,-SVR%EF%BC%89">模型二：支撐向量回歸（Support Vector Regression, SVR）<a class="anchor-link" href="#%E6%A8%A1%E5%9E%8B%E4%BA%8C%EF%BC%9A%E6%94%AF%E6%92%90%E5%90%91%E9%87%8F%E5%9B%9E%E6%AD%B8%EF%BC%88Support-Vector-Regression,-SVR%EF%BC%89">¶</a></h1><h2 id="%E4%BB%8B%E7%B4%B9">介紹<a class="anchor-link" href="#%E4%BB%8B%E7%B4%B9">¶</a></h2><ul>
+<h2 id="%E6%A8%A1%E5%9E%8B%E4%BA%8C%EF%BC%9A%E6%94%AF%E6%92%90%E5%90%91%E9%87%8F%E5%9B%9E%E6%AD%B8%EF%BC%88Support-Vector-Regression,-SVR%EF%BC%89">模型二：支撐向量回歸（Support Vector Regression, SVR）<a class="anchor-link" href="#%E6%A8%A1%E5%9E%8B%E4%BA%8C%EF%BC%9A%E6%94%AF%E6%92%90%E5%90%91%E9%87%8F%E5%9B%9E%E6%AD%B8%EF%BC%88Support-Vector-Regression,-SVR%EF%BC%89">¶</a></h2><h3 id="%E4%BB%8B%E7%B4%B9">介紹<a class="anchor-link" href="#%E4%BB%8B%E7%B4%B9">¶</a></h3><ul>
 <li>SVR 找到一條最平滑的函數，讓所有數據點到迴歸式的距離最近，使其在允許的誤差範圍內（ε-insensitive zone）逼近資料，不強求完全貼合。</li>
 <li>模型只會由靠近邊界的資料點（support vectors）決定，利用這些資料決定預測結果，只有在虛線之外的的誤差才會被計算，因此能避免過度擬合。</li>
 <li>透過非線性之核函數（RBF），可適用於 PM2.5 這類受多重環境因素影響的非線性預測問題。</li>
@@ -8362,7 +8370,7 @@ $\gamma$ 越小則模型趨於平滑。</br></p>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="%E6%A8%A1%E5%9E%8B%E7%B5%90%E6%9E%9C">模型結果<a class="anchor-link" href="#%E6%A8%A1%E5%9E%8B%E7%B5%90%E6%9E%9C">¶</a></h1><h2 id="1.-SVR%E5%8C%85%E5%90%ABLag%E9%A0%85-V.S.-SVR%E4%B8%8D%E5%8C%85%E5%90%ABLag%E9%A0%85">1. SVR包含Lag項 V.S. SVR不包含Lag項<a class="anchor-link" href="#1.-SVR%E5%8C%85%E5%90%ABLag%E9%A0%85-V.S.-SVR%E4%B8%8D%E5%8C%85%E5%90%ABLag%E9%A0%85">¶</a></h2>
+<h2 id="%E6%A8%A1%E5%9E%8B%E7%B5%90%E6%9E%9C">模型結果<a class="anchor-link" href="#%E6%A8%A1%E5%9E%8B%E7%B5%90%E6%9E%9C">¶</a></h2><h3 id="1.-SVR%E5%8C%85%E5%90%ABLag%E9%A0%85-V.S.-SVR%E4%B8%8D%E5%8C%85%E5%90%ABLag%E9%A0%85">1. SVR包含Lag項 V.S. SVR不包含Lag項<a class="anchor-link" href="#1.-SVR%E5%8C%85%E5%90%ABLag%E9%A0%85-V.S.-SVR%E4%B8%8D%E5%8C%85%E5%90%ABLag%E9%A0%85">¶</a></h3>
 </div>
 </div>
 </div>
@@ -8418,7 +8426,7 @@ $\gamma$ 越小則模型趨於平滑。</br></p>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="2.--%E6%A8%A1%E5%9E%8B%E6%B3%9B%E5%8C%96%E8%83%BD%E5%8A%9B">2.  模型泛化能力<a class="anchor-link" href="#2.--%E6%A8%A1%E5%9E%8B%E6%B3%9B%E5%8C%96%E8%83%BD%E5%8A%9B">¶</a></h2><img alt="No description has been provided for this image" src="./data/fig/SVR_lag_validation_data.png"/>
+<h3 id="2.--%E6%A8%A1%E5%9E%8B%E6%B3%9B%E5%8C%96%E8%83%BD%E5%8A%9B">2.  模型泛化能力<a class="anchor-link" href="#2.--%E6%A8%A1%E5%9E%8B%E6%B3%9B%E5%8C%96%E8%83%BD%E5%8A%9B">¶</a></h3><img alt="No description has been provided for this image" src="./data/fig/SVR_lag_validation_data.png"/>
 <p>圖 19：SVR-Lag 模型於驗證資料集之 PM2.5 預測時間序列結果。模型預測值與實測資料高度一致。</p>
 <img alt="No description has been provided for this image" src="./data/fig/SVR_lag_test_data.png"/>
 <p>圖 20：SVR-Lag 模型於測試資料集之 PM2.5 預測時間序列結果。顯示模型具有良好的泛化能力。</p>
@@ -8442,7 +8450,7 @@ $\gamma$ 越小則模型趨於平滑。</br></p>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="3.%E6%A8%A1%E5%9E%8B%E9%87%8D%E8%A6%81%E7%89%B9%E5%BE%B5%E5%80%BC%E5%88%97%E8%A1%A8">3.模型重要特徵值列表<a class="anchor-link" href="#3.%E6%A8%A1%E5%9E%8B%E9%87%8D%E8%A6%81%E7%89%B9%E5%BE%B5%E5%80%BC%E5%88%97%E8%A1%A8">¶</a></h2><p>圖 25：SVR-Lag 模型之重要特徵值。</p>
+<h3 id="3.%E6%A8%A1%E5%9E%8B%E9%87%8D%E8%A6%81%E7%89%B9%E5%BE%B5%E5%80%BC%E5%88%97%E8%A1%A8">3.模型重要特徵值列表<a class="anchor-link" href="#3.%E6%A8%A1%E5%9E%8B%E9%87%8D%E8%A6%81%E7%89%B9%E5%BE%B5%E5%80%BC%E5%88%97%E8%A1%A8">¶</a></h3><p>圖 25：SVR-Lag 模型之重要特徵值。</p>
 <img alt="No description has been provided for this image" src="./data/fig/Feature Importances.png"/>
 </div>
 </div>
@@ -8484,7 +8492,7 @@ PM2.5 的短時間滯後項（PM25_lag1）為最關鍵的預測因子，
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="%E5%8F%83%E8%80%83%E6%96%87%E7%8D%BB">參考文獻<a class="anchor-link" href="#%E5%8F%83%E8%80%83%E6%96%87%E7%8D%BB">¶</a></h1><ol>
+<h2 id="%E5%8F%83%E8%80%83%E6%96%87%E7%8D%BB">參考文獻<a class="anchor-link" href="#%E5%8F%83%E8%80%83%E6%96%87%E7%8D%BB">¶</a></h2><ol>
 <li>Geurts, P.,et al.(2006). Extremely randomized trees. <em>Machine Learning</em>, 63(1), 3-42. <a href="https://doi.org/10.1007/s10994-006-6226-1">https://doi.org/10.1007/s10994-006-6226-1</a></li>
 </ol>
 </div>
@@ -8805,20 +8813,24 @@ Top 10 most important features:
 </div>
 </div>
 </div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=00fc5245">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=8cf2cb5b">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>res = result_lag</p>
-<p>y_val = res['y_val']
-y_val_pred = res['y_val_pred']
-y_test = res['y_test']
-y_test_pred = res['y_test_pred']
-X_val = res['X_val']
-best_svr = res['best_svr']</p>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">res</span> <span class="o">=</span> <span class="n">result_lag</span>
+
+<span class="n">y_val</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="s1">'y_val'</span><span class="p">]</span>
+<span class="n">y_val_pred</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="s1">'y_val_pred'</span><span class="p">]</span>
+<span class="n">y_test</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="s1">'y_test'</span><span class="p">]</span>
+<span class="n">y_test_pred</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="s1">'y_test_pred'</span><span class="p">]</span>
+<span class="n">X_val</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="s1">'X_val'</span><span class="p">]</span>
+<span class="n">best_svr</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="s1">'best_svr'</span><span class="p">]</span>
+</pre></div>
+</div>
 </div>
 </div>
 </div>
